@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI BattleGround - Where Imagination Becomes Competition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            padding: 18px 5%;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(30px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .launch-btn {
+            padding: 11px 22px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 10px;
+            color: #6366f1;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .launch-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .wallet-btn {
+            padding: 11px 22px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .wallet-btn:hover {
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            margin-top: 90px;
+            padding: 100px 5% 70px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(234, 88, 12, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 50px;
+            font-size: 13px;
+            color: #f59e0b;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 6.5rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.05;
+            letter-spacing: -2px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 30%, #8b5cf6 60%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradient-shift 6s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.35rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .generator-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 24px;
+            padding: 50px;
+            max-width: 900px;
+            margin: 0 auto 50px;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .generator-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .generator-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 35px;
+        }
+
+        .prompt-input {
+            width: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+            margin-bottom: 25px;
+            resize: vertical;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+
+        .generator-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option-card {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+
+        .option-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .option-value {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 70px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .battle-status {
+            max-width: 850px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .battle-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .battle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .battle-theme {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 50px;
+            animation: pulse 2s infinite;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .timer-block {
+            text-align: center;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .timer-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .timer-unit {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        section {
+            padding: 80px 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }.elite-warriors {
+            max-width: 1400px;
+            margin: 0 auto 70px;
+        }
+
+        .warrior-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+
+        .warrior-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.25);
+        }
+
+        .warrior-card.gladiator {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 140, 0, 0.08));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            margin-bottom: 35px;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+        }
+
+        .warrior-card.champion {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.12), rgba(169, 169, 169, 0.08));
+            border: 2px solid rgba(192, 192, 192, 0.4);
+        }
+
+        .warrior-card.knight {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.12), rgba(184, 115, 51, 0.08));
+            border: 2px solid rgba(205, 127, 50, 0.4);
+        }
+
+        .warrior-avatar {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .rank-title {
+            font-size: 0.9rem;
+            color: #f59e0b;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .warrior-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .rank-number {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 12px;
+        }
+
+        .vote-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #f59e0b;
+            margin-bottom: 5px;
+        }
+
+        .vote-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .vote-meter {
+            margin-top: 20px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd93d 0%, #ff6b6b 100%);
+            transition: width 1s ease;
+        }
+
+        .reward-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .sub-warriors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sub-warriors .warrior-avatar {
+            font-size: 3rem;
+        }
+
+        .sub-warriors .vote-amount {
+            font-size: 1.8rem;
+        }
+
+        .sub-warriors .warrior-name {
+            font-size: 1.5rem;
+        }
+
+        .challenger-table {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .table-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        td {
+            padding: 22px 15px;
+        }
+
+        .rank-cell {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .name-cell {
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .gallery-section {
+            background: rgba(99, 102, 241, 0.02);
+        }
+
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 26px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            transition: all 0.4s;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(99, 102, 241, 0.2);
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            padding: 7px 14px;
+            background: #f59e0b;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            margin-bottom: 20px;
+        }
+
+        .gallery-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .gallery-author {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+
+        .gallery-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vote-count {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .vote-btn {
+            padding: 11px 22px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 45px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+        }
+
+        .problem-solution {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 100px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .problem-box {
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.08));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 28px;
+        }
+
+        .solution-box {
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.08));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 28px;
+        }
+
+        .box-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+        }
+
+        .problem-box h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #ef4444;
+        }
+
+        .solution-box h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #10b981;
+        }
+
+        .problem-box ul,
+        .solution-box ul {
+            list-style: none;
+            padding: 0;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 2.2;
+        }
+
+        .problem-box li,
+        .solution-box li {
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .problem-box li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: 800;
+        }
+
+        .solution-box li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 800;
+        }
+
+        .how-it-works h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 70px;
+        }
+
+        .steps {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 35px;
+            align-items: center;
+            margin-bottom: 50px;
+            text-align: left;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .step-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .step-number {
+            font-size: 0.85rem;
+            color: #8b5cf6;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .step h4 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .step p {
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.8;
+        }
+
+        footer {
+            padding: 70px 5%;
+            border-top: 1px solid rgba(99, 102, 241, 0.15);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 35px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 45px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .generator-options { grid-template-columns: repeat(2, 1fr); }
+            .timer-grid { grid-template-columns: repeat(2, 1fr); }
+            .problem-solution { grid-template-columns: 1fr; }
+            .step { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">⚔️</div>
+                AI BattleGround
+            </div>
+            <ul class="nav-links">
+                <li><a href="#battles">Battles</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="launch-btn">Launch App</button>
+                <button class="wallet-btn">Connect Wallet</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-badge">🔥 Live Battle in Progress</span>
+        <h1>Where <span class="gradient-text">Imagination</span><br>Becomes Competition</h1>
+        <p class="hero-subtitle">Create AI-generated masterpieces. Battle for supremacy. Earn real rewards. The ultimate creative battleground powered by Web3.</p>
+        
+        <div class="generator-card">
+            <h2 class="generator-title">🎨 Create Your Battle Entry</h2>
+            <p class="generator-subtitle">Transform your imagination into battle-ready art</p>
+            
+            <textarea class="prompt-input" placeholder="Describe your vision... (e.g., A cyberpunk samurai in neon-lit Tokyo, rain reflecting purple and blue lights)" rows="3"></textarea>
+            
+            <div class="generator-options">
+                <div class="option-card">
+                    <div class="option-label">STYLE</div>
+                    <div class="option-value">Realistic</div>
+                </div>
+                <div class="option-card">
+                    <div class="option-label">QUALITY</div>
+                    <div class="option-value">Super High</div>
+                </div>
+                <div class="option-card">
+                    <div class="option-label">ASPECT</div>
+                    <div class="option-value">1:1</div>
+                </div>
+                <div class="option-card">
+                    <div class="option-label">MODEL</div>
+                    <div class="option-value">AIBG Pro</div>
+                </div>
+                <div class="option-card">
+                    <div class="option-label">STEPS</div>
+                    <div class="option-value">50</div>
+                </div>
+                <div class="option-card">
+                    <div class="option-label">SEED</div>
+                    <div class="option-value">Random</div>
+                </div>
+            </div>
+            
+            <button class="generate-btn">⚡ Generate Warrior</button>
+        </div>
+        
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-number">$247K</div>
+                <div class="stat-label">Total Rewards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15.8K</div>
+                <div class="stat-label">Active Creators</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">892K</div>
+                <div class="stat-label">Total Votes</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="battle-status">
+        <div class="battle-header">
+            <h3 class="battle-theme">WEEK 14: "CYBERPUNK DYSTOPIA"</h3>
+            <div class="live-badge">
+                <div class="live-dot"></div>
+                <span>LIVE</span>
+            </div>
+        </div>
+        <div class="timer-grid">
+            <div class="timer-block">
+                <div class="timer-number" id="days">02</div>
+                <div class="timer-unit">DAYS</div>
+            </div>
+            <div class="timer-block">
+                <div class="timer-number" id="hours">14</div>
+                <div class="timer-unit">HOURS</div>
+            </div>
+            <div class="timer-block">
+                <div class="timer-number" id="minutes">37</div>
+                <div class="timer-unit">MINUTES</div>
+            </div>
+            <div class="timer-block">
+                <div class="timer-number" id="seconds">42</div>
+                <div class="timer-unit">SECONDS</div>
+            </div>
+        </div>
+    </div><section id="leaderboard">
+        <div class="section-header">
+            <h2 class="section-title">🏆 Elite Warriors</h2>
+            <p class="section-desc">Top performers in the current battle</p>
+        </div>
+        
+        <div class="elite-warriors">
+            <div class="warrior-card gladiator">
+                <div class="reward-badge">250 AIBG</div>
+                <div class="warrior-avatar">🥇</div>
+                <div class="rank-title">👑 GLADIATOR</div>
+                <h3 class="warrior-name">CryptoNinja</h3>
+                <div class="vote-amount">15,847</div>
+                <div class="vote-label">TOTAL VOTES</div>
+                <div class="vote-meter">
+                    <div class="meter-fill" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="sub-warriors">
+                <div class="warrior-card champion">
+                    <div class="warrior-avatar">🥈</div>
+                    <div class="rank-number">#2 CHAMPION</div>
+                    <h3 class="warrior-name">NeonSamurai</h3>
+                    <div class="vote-amount">12,453</div>
+                    <div class="vote-label">VOTES</div>
+                    <div class="vote-meter">
+                        <div class="meter-fill" style="width: 78%"></div>
+                    </div>
+                </div>
+                
+                <div class="warrior-card knight">
+                    <div class="warrior-avatar">🥉</div>
+                    <div class="rank-number">#3 KNIGHT</div>
+                    <h3 class="warrior-name">SteelDragon</h3>
+                    <div class="vote-amount">9,821</div>
+                    <div class="vote-label">VOTES</div>
+                    <div class="vote-meter">
+                        <div class="meter-fill" style="width: 62%"></div>
+                    </div>
+                </div>
+                
+                <div class="warrior-card">
+                    <div class="warrior-avatar">⚔️</div>
+                    <div class="rank-number">#4 WARRIOR</div>
+                    <h3 class="warrior-name">PhantomBlade</h3>
+                    <div class="vote-amount">7,654</div>
+                    <div class="vote-label">VOTES</div>
+                    <div class="vote-meter">
+                        <div class="meter-fill" style="width: 48%"></div>
+                    </div>
+                </div>
+                
+                <div class="warrior-card">
+                    <div class="warrior-avatar">⚔️</div>
+                    <div class="rank-number">#5 WARRIOR</div>
+                    <h3 class="warrior-name">VoidKnight</h3>
+                    <div class="vote-amount">6,432</div>
+                    <div class="vote-label">VOTES</div>
+                    <div class="vote-meter">
+                        <div class="meter-fill" style="width: 40%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="challenger-table">
+            <h3 class="table-title">⚔️ All Challengers (Top 10)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Warrior</th>
+                        <th>Votes</th>
+                        <th>Change</th>
+                        <th>Prize</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank-cell">#1</td>
+                        <td class="name-cell">CryptoNinja</td>
+                        <td>15,847</td>
+                        <td style="color: #10b981">↑ 234</td>
+                        <td style="color: #f59e0b; font-weight: 700">250 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#2</td>
+                        <td class="name-cell">NeonSamurai</td>
+                        <td>12,453</td>
+                        <td style="color: #10b981">↑ 189</td>
+                        <td style="color: #f59e0b; font-weight: 700">150 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#3</td>
+                        <td class="name-cell">SteelDragon</td>
+                        <td>9,821</td>
+                        <td style="color: #ef4444">↓ 45</td>
+                        <td style="color: #f59e0b; font-weight: 700">100 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#4</td>
+                        <td class="name-cell">PhantomBlade</td>
+                        <td>7,654</td>
+                        <td style="color: #10b981">↑ 112</td>
+                        <td style="color: #f59e0b; font-weight: 700">75 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#5</td>
+                        <td class="name-cell">VoidKnight</td>
+                        <td>6,432</td>
+                        <td style="color: #10b981">↑ 67</td>
+                        <td style="color: #f59e0b; font-weight: 700">50 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#6</td>
+                        <td class="name-cell">QuantumWarrior</td>
+                        <td>5,891</td>
+                        <td style="color: rgba(255,255,255,0.5)">—</td>
+                        <td style="color: #f59e0b; font-weight: 700">40 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#7</td>
+                        <td class="name-cell">CyberRonin</td>
+                        <td>5,234</td>
+                        <td style="color: #ef4444">↓ 23</td>
+                        <td style="color: #f59e0b; font-weight: 700">30 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#8</td>
+                        <td class="name-cell">ElectricShogun</td>
+                        <td>4,876</td>
+                        <td style="color: #10b981">↑ 89</td>
+                        <td style="color: #f59e0b; font-weight: 700">25 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#9</td>
+                        <td class="name-cell">PixelAssassin</td>
+                        <td>4,321</td>
+                        <td style="color: #10b981">↑ 45</td>
+                        <td style="color: #f59e0b; font-weight: 700">20 AIBG</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-cell">#10</td>
+                        <td class="name-cell">NeonPhantom</td>
+                        <td>3,987</td>
+                        <td style="color: #ef4444">↓ 12</td>
+                        <td style="color: #f59e0b; font-weight: 700">15 AIBG</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="section-header">
+            <h2 class="section-title">Battle <span class="gradient-text">Gallery</span></h2>
+            <p class="section-desc">Vote for your favorites and shape the leaderboard</p>
+        </div>
+        
+        <div class="gallery-tabs">
+            <button class="tab-btn active">All</button>
+            <button class="tab-btn">Trending</button>
+            <button class="tab-btn">New</button>
+            <button class="tab-btn">Top Voted</button>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <div class="rank-badge">RANK #1</div>
+                <div class="gallery-image">🎭</div>
+                <h3 class="gallery-title">Neural Dreams</h3>
+                <p class="gallery-author">by NeuralNinja.eth</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 12,847</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+            
+            <div class="gallery-card">
+                <div class="rank-badge">RANK #2</div>
+                <div class="gallery-image">🌃</div>
+                <h3 class="gallery-title">Cyber Horizon</h3>
+                <p class="gallery-author">by CyberSamurai</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 11,392</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+            
+            <div class="gallery-card">
+                <div class="rank-badge">RANK #3</div>
+                <div class="gallery-image">🏙️</div>
+                <h3 class="gallery-title">Neon Dystopia</h3>
+                <p class="gallery-author">by PixelMaster</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 9,876</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+            
+            <div class="gallery-card">
+                <div class="gallery-image">⚔️</div>
+                <h3 class="gallery-title">Digital Warrior</h3>
+                <p class="gallery-author">by ArtBot_X</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 8,543</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+            
+            <div class="gallery-card">
+                <div class="gallery-image">🔮</div>
+                <h3 class="gallery-title">Future Vision</h3>
+                <p class="gallery-author">by DreamWeaver</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 7,291</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+            
+            <div class="gallery-card">
+                <div class="gallery-image">✨</div>
+                <h3 class="gallery-title">Quantum Realm</h3>
+                <p class="gallery-author">by QuantumAI</p>
+                <div class="gallery-footer">
+                    <div class="vote-count">⚡ 6,847</div>
+                    <button class="vote-btn">Vote</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section">
+        <div class="section-header">
+            <h2 class="section-title">From Vision to <span style="background: linear-gradient(135deg, #f59e0b, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Victory</span></h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Create Your Content</h3>
+                <p>Use our AI generator to create unique warriors. No design skills needed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚔️</div>
+                <h3>Enter Live Battles</h3>
+                <p>Submit your creation to themed battles and compete against the community.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Earn AIBG Tokens</h3>
+                <p>Top performers receive AIBG tokens. The more votes, the bigger the prize.</p>
+            </div>
+        </div>
+        
+        <div class="problem-solution">
+            <div class="problem-box">
+                <div class="box-icon">⚠️</div>
+                <h3>The Problem</h3>
+                <ul>
+                    <li>AI creators lack platforms to monetize their work</li>
+                    <li>No transparent competition system exists</li>
+                    <li>Community engagement is fragmented</li>
+                    <li>Traditional art markets are closed to digital creators</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <div class="box-icon">✨</div>
+                <h3>Our Solution</h3>
+                <ul>
+                    <li>Fair, blockchain-based voting system</li>
+                    <li>Weekly battle competitions with AIBG prizes</li>
+                    <li>Real-time leaderboards and rankings</li>
+                    <li>Community-driven content platform</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🎨</div>
+                    <div class="step-content">
+                        <div class="step-number">STEP 01</div>
+                        <h4>Create Your Warrior</h4>
+                        <p>Use our AI generator to bring your imagination to life</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">⚔️</div>
+                    <div class="step-content">
+                        <div class="step-number">STEP 02</div>
+                        <h4>Enter the Arena</h4>
+                        <p>Submit to weekly themed battles and join the competition</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🗳️</div>
+                    <div class="step-content">
+                        <div class="step-number">STEP 03</div>
+                        <h4>Community Votes</h4>
+                        <p>Players vote for their favorites using our platform</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🏆</div>
+                    <div class="step-content">
+                        <div class="step-number">STEP 04</div>
+                        <h4>Claim Your Prize</h4>
+                        <p>Top warriors earn AIBG tokens distributed automatically</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">AI BattleGround</div>
+        <div class="footer-links">
+            <a href="#">Telegram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Discord</a>
+            <a href="#">Docs</a>
+        </div>
+        <p>© 2025 AI BattleGround. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let timer = { days: 2, hours: 14, minutes: 37, seconds: 42 };
+
+        function updateTimer() {
+            timer.seconds--;
+            
+            if (timer.seconds < 0) {
+                timer.seconds = 59;
+                timer.minutes--;
+            }
+            if (timer.minutes < 0) {
+                timer.minutes = 59;
+                timer.hours--;
+            }
+            if (timer.hours < 0) {
+                timer.hours = 23;
+                timer.days--;
+            }
+            if (timer.days < 0) {
+                timer.days = timer.hours = timer.minutes = timer.seconds = 0;
+            }
+            
+            document.getElementById('days').textContent = String(timer.days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(timer.hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(timer.minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(timer.seconds).padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+
+        document.querySelector('.generate-btn').addEventListener('click', function() {
+            const btn = this;
+            const originalText = btn.textContent;
+            btn.textContent = '⚡ GENERATING...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.textContent = '✅ WARRIOR CREATED!';
+                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                }, 2000);
+            }, 2000);
+        });
+
+        document.querySelector('.wallet-btn').addEventListener('click', () => {
+            alert('🦊 Connect your Solana wallet to start battling!');
+        });
+
+        document.querySelector('.launch-btn').addEventListener('click', () => {
+            alert('🚀 Opening Telegram Bot...\n\nJoin the battle through our Telegram app!');
+        });
+
+        document.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = '✓ Voted!';
+                this.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+                    this.disabled = false;
+                }, 3000);
+            });
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.option-card').forEach(c => {
+                    c.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    c.style.background = 'rgba(255, 255, 255, 0.03)';
+                });
+                this.style.borderColor = '#6366f1';
+                this.style.background = 'rgba(99, 102, 241, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
