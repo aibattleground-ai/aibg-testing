@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI BattleGround - Where Imagination Becomes Competition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>AI BattleGround - Create. Battle. Earn.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,12 +13,15 @@
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0f;
-            color: #fff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000000;
+            color: white;
+            min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -27,535 +30,696 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
             pointer-events: none;
-            z-index: 1;
+            z-index: 0;
+            animation: bgShift 20s ease infinite;
         }
 
+        @keyframes bgShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Navigation */
         nav {
             position: fixed;
-            width: 100%;
             top: 0;
-            padding: 18px 5%;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(30px);
+            width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(30px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom-color: rgba(139, 92, 246, 0.3);
         }
 
         .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
         }
 
         .logo {
-            font-size: 22px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.8rem;
+            cursor: pointer;
         }
 
         .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s;
         }
 
-        .nav-links {
+        .logo:hover .logo-icon {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
             display: flex;
-            gap: 35px;
+            gap: 2.5rem;
             list-style: none;
         }
 
-        .nav-links a {
+        .nav-menu a {
             color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
+            font-size: 0.95rem;
             font-weight: 600;
-            font-size: 14px;
             transition: all 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .launch-btn {
-            padding: 11px 22px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.4);
-            border-radius: 10px;
-            color: #6366f1;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .launch-btn:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .wallet-btn {
-            padding: 11px 22px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .wallet-btn:hover {
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .hero {
-            margin-top: 90px;
-            padding: 100px 5% 70px;
-            text-align: center;
             position: relative;
-            z-index: 2;
         }
 
-        .hero-badge {
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.7rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: white;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(234, 88, 12, 0.15));
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            gap: 0.5rem;
+            padding: 0.6rem 1.8rem;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1.5px solid rgba(168, 85, 247, 0.4);
             border-radius: 50px;
-            font-size: 13px;
-            color: #f59e0b;
+            color: #e9d5ff;
+            font-size: 0.85rem;
             font-weight: 700;
-            margin-bottom: 35px;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .hero h1 {
-            font-size: clamp(2.8rem, 8vw, 6.5rem);
-            font-weight: 800;
-            margin-bottom: 30px;
-            line-height: 1.05;
-            letter-spacing: -2px;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #c4b5fd 30%, #8b5cf6 60%, #6366f1 100%);
+        h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 30%, #a855f7 60%, #ec4899 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            letter-spacing: -3px;
+            animation: gradientFlow 8s ease infinite;
             background-size: 200% 200%;
-            animation: gradient-shift 6s ease infinite;
         }
 
-        @keyframes gradient-shift {
+        @keyframes gradientFlow {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
 
-        .hero-subtitle {
+        .subtitle {
             font-size: 1.35rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 50px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .generator-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 24px;
-            padding: 50px;
-            max-width: 900px;
-            margin: 0 auto 50px;
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
-        }
-
-        .generator-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .generator-subtitle {
             color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 35px;
+            max-width: 700px;
+            margin: 0 auto 3.5rem;
+            line-height: 1.7;
+            font-weight: 500;
         }
 
-        .prompt-input {
-            width: 100%;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            color: white;
-            font-size: 15px;
-            font-family: inherit;
-            margin-bottom: 25px;
-            resize: vertical;
+        /* Stats Cards */
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto 5rem;
         }
 
-        .prompt-input:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-        }
-
-        .generator-options {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .option-card {
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
+        .stat-card {
+            padding: 2.5rem;
+            border-radius: 24px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .option-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: #6366f1;
-            transform: translateY(-3px);
-        }
-
-        .option-label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .option-value {
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 6px;
-        }
-
-        .generate-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 17px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.4s;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 70px;
-            margin-top: 60px;
-            flex-wrap: wrap;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 8px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .battle-status {
-            max-width: 850px;
-            margin: 60px auto;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 35px;
-            border: 1px solid rgba(99, 102, 241, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            z-index: 2;
             overflow: hidden;
         }
 
-        .battle-status::before {
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(168, 85, 247, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.3);
+        }
+
+        .stat-card.purple {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(236, 72, 153, 0.12));
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .stat-card.blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(6, 182, 212, 0.12));
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-card.green {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.12));
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #ffffff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        /* Countdown Card */
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.3), rgba(157, 23, 77, 0.3));
+            backdrop-filter: blur(30px);
+            border: 1.5px solid rgba(168, 85, 247, 0.4);
+            border-radius: 28px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #f59e0b, transparent);
-            animation: scan 2s linear infinite;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        @keyframes scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
-        .battle-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .battle-theme {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .live-badge {
+        .countdown-header {
             display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 6px 14px;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            border-radius: 50px;
-            animation: pulse 2s infinite;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
         }
 
         .live-dot {
-            width: 8px;
-            height: 8px;
+            width: 14px;
+            height: 14px;
             background: #ef4444;
             border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
         }
 
-        .timer-grid {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .live-text {
+            color: #fca5a5;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        .countdown-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .timer-block {
+        .countdown-item {
             text-align: center;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
+        }
+
+        .countdown-value {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 0.8rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
         }
 
-        .timer-number {
-            font-size: 2.2rem;
-            font-weight: 800;
+        .countdown-value:hover {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: scale(1.05);
         }
 
-        .timer-unit {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.4);
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #e9d5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            margin-top: 5px;
-            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-weight: 700;
         }
 
-        section {
-            padding: 80px 5%;
+        /* Generator Section */
+        .generator-section {
+            max-width: 900px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 800;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
         }
 
-        .section-desc {
-            color: rgba(255, 255, 255, 0.6);
+        .section-subtitle {
+            color: rgba(255, 255, 255, 0.5);
             font-size: 1.1rem;
-        }.elite-warriors {
-            max-width: 1400px;
-            margin: 0 auto 70px;
+            font-weight: 500;
         }
 
-        .warrior-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+        .generator-card {
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.7), rgba(17, 24, 39, 0.7));
+            backdrop-filter: blur(30px);
+            border: 1.5px solid rgba(168, 85, 247, 0.25);
+            border-radius: 28px;
+            padding: 3rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
             position: relative;
-            transition: all 0.4s;
             overflow: hidden;
         }
 
-        .warrior-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.25);
+        .generator-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        .warrior-card.gladiator {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 140, 0, 0.08));
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            margin-bottom: 35px;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .warrior-card.champion {
-            background: linear-gradient(135deg, rgba(192, 192, 192, 0.12), rgba(169, 169, 169, 0.08));
-            border: 2px solid rgba(192, 192, 192, 0.4);
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .warrior-card.knight {
-            background: linear-gradient(135deg, rgba(205, 127, 50, 0.12), rgba(184, 115, 51, 0.08));
-            border: 2px solid rgba(205, 127, 50, 0.4);
-        }
-
-        .warrior-avatar {
-            font-size: 5rem;
-            margin-bottom: 20px;
-        }
-
-        .rank-title {
+        .form-label {
+            display: block;
             font-size: 0.9rem;
-            color: #f59e0b;
-            font-weight: 800;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .warrior-name {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 15px;
+        textarea, select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
-        .rank-number {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 12px;
+        textarea {
+            height: 140px;
+            resize: none;
         }
 
-        .vote-amount {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #f59e0b;
-            margin-bottom: 5px;
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: #a855f7;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
         }
 
-        .vote-label {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 5px;
-            letter-spacing: 1.5px;
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            cursor: pointer;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn-generate::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #ec4899, #a855f7);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn-generate:hover::before {
+            opacity: 1;
+        }
+
+        .cost-info {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
             font-weight: 600;
         }
 
-        .vote-meter {
-            margin-top: 20px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        /* Leaderboard */
+        .leaderboard-section {
+            max-width: 1400px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .champions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .champion-card {
+            border-radius: 24px;
+            padding: 3px;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            position: relative;
             overflow: hidden;
         }
 
-        .meter-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ffd93d 0%, #ff6b6b 100%);
-            transition: width 1s ease;
-        }
-
-        .reward-badge {
+        .champion-card::before {
+            content: '';
             position: absolute;
-            top: 25px;
-            right: 25px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 12px;
+            inset: 0;
+            background: linear-gradient(135deg, #ef4444, #f59e0b);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .champion-card:hover::before {
+            opacity: 1;
+        }
+
+        .champion-inner {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 22px;
+            padding: 2rem;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s;
+        }
+
+        .champion-card:hover .champion-inner {
+            background: rgba(17, 24, 39, 0.9);
+            transform: scale(1.02);
+        }
+
+        .champion-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.4);
+        }
+
+        .champion-title-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .champion-rank {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fbbf24, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .champion-name {
             font-weight: 700;
-            font-size: 15px;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            font-size: 1.1rem;
         }
 
-        .sub-warriors {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .sub-warriors .warrior-avatar {
-            font-size: 3rem;
-        }
-
-        .sub-warriors .vote-amount {
+        .champion-votes {
             font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
         }
 
-        .sub-warriors .warrior-name {
-            font-size: 1.5rem;
+        .votes-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .challenger-table {
-            background: rgba(255, 255, 255, 0.02);
+        /* Table */
+        .leaderboard-table {
+            background: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(30px);
+            border: 1.5px solid rgba(75, 85, 99, 0.3);
             border-radius: 24px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .table-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 30px;
+            overflow: hidden;
         }
 
         table {
@@ -564,901 +728,1197 @@
         }
 
         thead tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1.5px solid rgba(75, 85, 99, 0.5);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         th {
-            padding: 18px 15px;
+            padding: 1.5rem 2rem;
             text-align: left;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        th:last-child {
+            text-align: right;
         }
 
         tbody tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.5);
             transition: all 0.3s;
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(75, 85, 99, 0.2);
         }
 
         td {
-            padding: 22px 15px;
+            padding: 1.5rem 2rem;
         }
 
-        .rank-cell {
-            font-size: 1.3rem;
-            font-weight: 800;
+        .rank-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.3);
         }
 
-        .name-cell {
-            font-weight: 700;
-            font-size: 1.15rem;
-        }
-
-        .gallery-section {
-            background: rgba(99, 102, 241, 0.02);
-        }
-
-        .gallery-tabs {
+        .creator-cell {
             display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .creator-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 45px;
-            flex-wrap: wrap;
+            font-size: 1.5rem;
         }
 
-        .tab-btn {
-            padding: 12px 26px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
+        .creator-name {
             font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s;
+            font-size: 1rem;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-color: transparent;
-            color: white;
+        .votes-number {
+            font-weight: 800;
+            text-align: right;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: rgba(55, 65, 81, 0.5);
+            border-radius: 50px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            border-radius: 50px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Gallery */
+        .gallery-section {
+            max-width: 1400px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
-        .gallery-card {
-            background: rgba(255, 255, 255, 0.03);
+        .gallery-item {
+            aspect-ratio: 1;
             border-radius: 20px;
-            padding: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            cursor: pointer;
             position: relative;
-            transition: all 0.4s;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .gallery-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 45px rgba(99, 102, 241, 0.2);
+        .gallery-item:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(168, 85, 247, 0.4);
         }
 
-        .rank-badge {
+        .gallery-placeholder {
             position: absolute;
-            top: 18px;
-            left: 18px;
-            padding: 7px 14px;
-            background: #f59e0b;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 800;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.4s;
+            font-size: 3rem;
         }
 
-        .gallery-image {
-            width: 100%;
-            height: 320px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+        .gallery-item:hover .gallery-placeholder {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .creator-info {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .vote-count {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .view-all-container {
+            text-align: center;
+        }
+
+        /* Vision Section */
+        .vision-section {
+            max-width: 1100px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vision-intro {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .vision-text {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .content-card {
+            border-radius: 28px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(30px);
+            border: 1.5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            animation: cardShimmer 5s infinite;
+        }
+
+        @keyframes cardShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .content-card.problem {
+            background: linear-gradient(135deg, rgba(127, 29, 29, 0.25), rgba(154, 52, 18, 0.25));
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .content-card.solution {
+            background: linear-gradient(135deg, rgba(20, 83, 45, 0.25), rgba(6, 95, 70, 0.25));
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .content-card.how {
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.25), rgba(157, 23, 77, 0.25));
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .content-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-icon {
+            width: 60px;
+            height: 60px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 6rem;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            flex-shrink: 0;
         }
 
-        .gallery-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .content-icon.problem {
+            background: rgba(239, 68, 68, 0.2);
         }
 
-        .gallery-author {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.95rem;
-            margin-bottom: 18px;
+        .content-icon.solution {
+            background: rgba(34, 197, 94, 0.2);
         }
 
-        .gallery-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .content-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            letter-spacing: -1px;
         }
 
-        .vote-count {
-            font-weight: 700;
+        .content-title.problem {
+            color: #fca5a5;
+        }
+
+        .content-title.solution {
+            color: #86efac;
+        }
+
+        .content-title.how {
+            background: linear-gradient(135deg, #c084fc, #f9a8d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-text {
+            color: rgba(255, 255, 255, 0.7);
             font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
         }
 
-        .vote-btn {
-            padding: 11px 22px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .vote-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 45px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.4s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 45px rgba(99, 102, 241, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 4.5rem;
-            margin-bottom: 25px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-        }
-
-        .feature-card p {
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.7;
-        }
-
-        .problem-solution {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px;
-            margin-bottom: 100px;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .problem-box {
-            padding: 50px;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.08));
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 28px;
-        }
-
-        .solution-box {
-            padding: 50px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.08));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 28px;
-        }
-
-        .box-icon {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
-        }
-
-        .problem-box h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #ef4444;
-        }
-
-        .solution-box h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #10b981;
-        }
-
-        .problem-box ul,
-        .solution-box ul {
+        .content-list {
             list-style: none;
             padding: 0;
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 2.2;
         }
 
-        .problem-box li,
-        .solution-box li {
-            padding-left: 25px;
-            position: relative;
+        .content-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            font-weight: 500;
         }
 
-        .problem-box li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #ef4444;
-            font-weight: 800;
+        .bullet {
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+            font-size: 1.2rem;
         }
 
-        .solution-box li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #10b981;
-            font-weight: 800;
+        .bullet.problem {
+            color: #fca5a5;
         }
 
-        .how-it-works h2 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 70px;
+        .bullet.solution {
+            color: #86efac;
         }
 
-        .steps {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .step {
+        .steps-grid {
             display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 35px;
-            align-items: center;
-            margin-bottom: 50px;
-            text-align: left;
-            padding: 35px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .step-item {
+            text-align: center;
         }
 
         .step-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.4);
+            transition: all 0.4s;
         }
 
-        .step-number {
-            font-size: 0.85rem;
-            color: #8b5cf6;
+        .step-item:hover .step-icon {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(168, 85, 247, 0.6);
+        }
+
+        .step-title {
             font-weight: 800;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
         }
 
-        .step h4 {
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 12px;
+        .step-desc {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+            font-weight: 500;
         }
 
-        .step p {
-            color: rgba(255, 255, 255, 0.65);
-            line-height: 1.8;
+        .token-utility {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
+        .token-utility p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .token-utility strong {
+            color: #c084fc;
+            font-weight: 800;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            max-width: 900px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 32px;
+            padding: 4rem 3rem;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(168, 85, 247, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent);
+            animation: ctaPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes ctaPulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            letter-spacing: -1px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            color: #e9d5ff;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            padding: 1.2rem 3rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-cta.white {
+            background: white;
+            color: #a855f7;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-cta.white:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-cta.dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-cta.dark:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateY(-4px);
+        }
+
+        /* Footer */
         footer {
-            padding: 70px 5%;
-            border-top: 1px solid rgba(99, 102, 241, 0.15);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.05);
+            padding: 4rem 2rem;
+            margin-top: 8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
             text-align: center;
             color: rgba(255, 255, 255, 0.5);
         }
 
         .footer-logo {
-            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 35px;
+        }
+
+        .footer-logo-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .footer-desc {
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 45px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 2rem;
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
-            transition: all 0.3s;
+            transition: color 0.3s;
             font-weight: 600;
         }
 
         .footer-links a:hover {
-            color: #fff;
-            transform: translateY(-2px);
+            color: #c084fc;
         }
 
+        .footer-copyright {
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .generator-options { grid-template-columns: repeat(2, 1fr); }
-            .timer-grid { grid-template-columns: repeat(2, 1fr); }
-            .problem-solution { grid-template-columns: 1fr; }
-            .step { grid-template-columns: 1fr; text-align: center; }
+            .nav-menu {
+                display: none;
+            }
+
+            h1 {
+                font-size: 3rem;
+                letter-spacing: -1.5px;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stat-value {
+                font-size: 2.5rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .countdown-grid {
+                gap: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .champions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
+    <!-- Navigation -->
+    <nav id="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <div class="logo-icon">⚔️</div>
-                AI BattleGround
+            <div class="nav-left">
+                <div class="logo">
+                    <div class="logo-icon">AIBG</div>
+                    <span class="logo-text">AI BattleGround</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#leaderboard">Leaderboard</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#vision">Vision</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#whitepaper">Whitepaper</a></li>
+                </ul>
             </div>
-            <ul class="nav-links">
-                <li><a href="#battles">Battles</a></li>
-                <li><a href="#leaderboard">Leaderboard</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="launch-btn">Launch App</button>
-                <button class="wallet-btn">Connect Wallet</button>
+            <div class="nav-right">
+                <button class="btn btn-primary">
+                    Launch App
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </button>
+                <button class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <path d="M7 15h0M2 9.5h20"></path>
+                    </svg>
+                    Connect
+                </button>
             </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <span class="hero-badge">🔥 Live Battle in Progress</span>
-        <h1>Where <span class="gradient-text">Imagination</span><br>Becomes Competition</h1>
-        <p class="hero-subtitle">Create AI-generated masterpieces. Battle for supremacy. Earn real rewards. The ultimate creative battleground powered by Web3.</p>
-        
-        <div class="generator-card">
-            <h2 class="generator-title">🎨 Create Your Battle Entry</h2>
-            <p class="generator-subtitle">Transform your imagination into battle-ready art</p>
-            
-            <textarea class="prompt-input" placeholder="Describe your vision... (e.g., A cyberpunk samurai in neon-lit Tokyo, rain reflecting purple and blue lights)" rows="3"></textarea>
-            
-            <div class="generator-options">
-                <div class="option-card">
-                    <div class="option-label">STYLE</div>
-                    <div class="option-value">Realistic</div>
-                </div>
-                <div class="option-card">
-                    <div class="option-label">QUALITY</div>
-                    <div class="option-value">Super High</div>
-                </div>
-                <div class="option-card">
-                    <div class="option-label">ASPECT</div>
-                    <div class="option-value">1:1</div>
-                </div>
-                <div class="option-card">
-                    <div class="option-label">MODEL</div>
-                    <div class="option-value">AIBG Pro</div>
-                </div>
-                <div class="option-card">
-                    <div class="option-label">STEPS</div>
-                    <div class="option-value">50</div>
-                </div>
-                <div class="option-card">
-                    <div class="option-label">SEED</div>
-                    <div class="option-value">Random</div>
-                </div>
-            </div>
-            
-            <button class="generate-btn">⚡ Generate Warrior</button>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="badge">
+            🔥 Week 14: "Cyberpunk Dystopia" - Battle is LIVE
         </div>
-        
-        <div class="hero-stats">
-            <div class="stat-card">
-                <div class="stat-number">$247K</div>
-                <div class="stat-label">Total Rewards</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">15.8K</div>
-                <div class="stat-label">Active Creators</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">892K</div>
-                <div class="stat-label">Total Votes</div>
-            </div>
-        </div>
-    </section>
+        <h1>Create. Battle. Earn.</h1>
+        <p class="subtitle">
+            The ultimate creative battleground powered by AI and Web3. Create masterpieces, battle for supremacy, and earn real rewards.
+        </p>
 
-    <div class="battle-status">
-        <div class="battle-header">
-            <h3 class="battle-theme">WEEK 14: "CYBERPUNK DYSTOPIA"</h3>
-            <div class="live-badge">
-                <div class="live-dot"></div>
-                <span>LIVE</span>
-            </div>
-        </div>
-        <div class="timer-grid">
-            <div class="timer-block">
-                <div class="timer-number" id="days">02</div>
-                <div class="timer-unit">DAYS</div>
-            </div>
-            <div class="timer-block">
-                <div class="timer-number" id="hours">14</div>
-                <div class="timer-unit">HOURS</div>
-            </div>
-            <div class="timer-block">
-                <div class="timer-number" id="minutes">37</div>
-                <div class="timer-unit">MINUTES</div>
-            </div>
-            <div class="timer-block">
-                <div class="timer-number" id="seconds">42</div>
-                <div class="timer-unit">SECONDS</div>
-            </div>
-        </div>
-    </div><section id="leaderboard">
-        <div class="section-header">
-            <h2 class="section-title">🏆 Elite Warriors</h2>
-            <p class="section-desc">Top performers in the current battle</p>
-        </div>
-        
-        <div class="elite-warriors">
-            <div class="warrior-card gladiator">
-                <div class="reward-badge">250 AIBG</div>
-                <div class="warrior-avatar">🥇</div>
-                <div class="rank-title">👑 GLADIATOR</div>
-                <h3 class="warrior-name">CryptoNinja</h3>
-                <div class="vote-amount">15,847</div>
-                <div class="vote-label">TOTAL VOTES</div>
-                <div class="vote-meter">
-                    <div class="meter-fill" style="width: 100%"></div>
+        <!-- Stats Section -->
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card purple">
+                    <div class="stat-value">$247K</div>
+                    <div class="stat-label">Total Rewards</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-value">15.8K</div>
+                    <div class="stat-label">Active Creators</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-value">892K</div>
+                    <div class="stat-label">Total Votes</div>
                 </div>
             </div>
-            
-            <div class="sub-warriors">
-                <div class="warrior-card champion">
-                    <div class="warrior-avatar">🥈</div>
-                    <div class="rank-number">#2 CHAMPION</div>
-                    <h3 class="warrior-name">NeonSamurai</h3>
-                    <div class="vote-amount">12,453</div>
-                    <div class="vote-label">VOTES</div>
-                    <div class="vote-meter">
-                        <div class="meter-fill" style="width: 78%"></div>
-                    </div>
-                </div>
-                
-                <div class="warrior-card knight">
-                    <div class="warrior-avatar">🥉</div>
-                    <div class="rank-number">#3 KNIGHT</div>
-                    <h3 class="warrior-name">SteelDragon</h3>
-                    <div class="vote-amount">9,821</div>
-                    <div class="vote-label">VOTES</div>
-                    <div class="vote-meter">
-                        <div class="meter-fill" style="width: 62%"></div>
-                    </div>
-                </div>
-                
-                <div class="warrior-card">
-                    <div class="warrior-avatar">⚔️</div>
-                    <div class="rank-number">#4 WARRIOR</div>
-                    <h3 class="warrior-name">PhantomBlade</h3>
-                    <div class="vote-amount">7,654</div>
-                    <div class="vote-label">VOTES</div>
-                    <div class="vote-meter">
-                        <div class="meter-fill" style="width: 48%"></div>
-                    </div>
-                </div>
-                
-                <div class="warrior-card">
-                    <div class="warrior-avatar">⚔️</div>
-                    <div class="rank-number">#5 WARRIOR</div>
-                    <h3 class="warrior-name">VoidKnight</h3>
-                    <div class="vote-amount">6,432</div>
-                    <div class="vote-label">VOTES</div>
-                    <div class="vote-meter">
-                        <div class="meter-fill" style="width: 40%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="challenger-table">
-            <h3 class="table-title">⚔️ All Challengers (Top 10)</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Warrior</th>
-                        <th>Votes</th>
-                        <th>Change</th>
-                        <th>Prize</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="rank-cell">#1</td>
-                        <td class="name-cell">CryptoNinja</td>
-                        <td>15,847</td>
-                        <td style="color: #10b981">↑ 234</td>
-                        <td style="color: #f59e0b; font-weight: 700">250 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#2</td>
-                        <td class="name-cell">NeonSamurai</td>
-                        <td>12,453</td>
-                        <td style="color: #10b981">↑ 189</td>
-                        <td style="color: #f59e0b; font-weight: 700">150 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#3</td>
-                        <td class="name-cell">SteelDragon</td>
-                        <td>9,821</td>
-                        <td style="color: #ef4444">↓ 45</td>
-                        <td style="color: #f59e0b; font-weight: 700">100 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#4</td>
-                        <td class="name-cell">PhantomBlade</td>
-                        <td>7,654</td>
-                        <td style="color: #10b981">↑ 112</td>
-                        <td style="color: #f59e0b; font-weight: 700">75 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#5</td>
-                        <td class="name-cell">VoidKnight</td>
-                        <td>6,432</td>
-                        <td style="color: #10b981">↑ 67</td>
-                        <td style="color: #f59e0b; font-weight: 700">50 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#6</td>
-                        <td class="name-cell">QuantumWarrior</td>
-                        <td>5,891</td>
-                        <td style="color: rgba(255,255,255,0.5)">—</td>
-                        <td style="color: #f59e0b; font-weight: 700">40 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#7</td>
-                        <td class="name-cell">CyberRonin</td>
-                        <td>5,234</td>
-                        <td style="color: #ef4444">↓ 23</td>
-                        <td style="color: #f59e0b; font-weight: 700">30 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#8</td>
-                        <td class="name-cell">ElectricShogun</td>
-                        <td>4,876</td>
-                        <td style="color: #10b981">↑ 89</td>
-                        <td style="color: #f59e0b; font-weight: 700">25 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#9</td>
-                        <td class="name-cell">PixelAssassin</td>
-                        <td>4,321</td>
-                        <td style="color: #10b981">↑ 45</td>
-                        <td style="color: #f59e0b; font-weight: 700">20 AIBG</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-cell">#10</td>
-                        <td class="name-cell">NeonPhantom</td>
-                        <td>3,987</td>
-                        <td style="color: #ef4444">↓ 12</td>
-                        <td style="color: #f59e0b; font-weight: 700">15 AIBG</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
 
-    <section id="gallery" class="gallery-section">
-        <div class="section-header">
-            <h2 class="section-title">Battle <span class="gradient-text">Gallery</span></h2>
-            <p class="section-desc">Vote for your favorites and shape the leaderboard</p>
-        </div>
-        
-        <div class="gallery-tabs">
-            <button class="tab-btn active">All</button>
-            <button class="tab-btn">Trending</button>
-            <button class="tab-btn">New</button>
-            <button class="tab-btn">Top Voted</button>
-        </div>
-        
-        <div class="gallery-grid">
-            <div class="gallery-card">
-                <div class="rank-badge">RANK #1</div>
-                <div class="gallery-image">🎭</div>
-                <h3 class="gallery-title">Neural Dreams</h3>
-                <p class="gallery-author">by NeuralNinja.eth</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 12,847</div>
-                    <button class="vote-btn">Vote</button>
+            <!-- Countdown -->
+            <div class="countdown-card">
+                <div class="countdown-header">
+                    <div class="live-dot"></div>
+                    <span class="live-text">Voting Ends In</span>
                 </div>
-            </div>
-            
-            <div class="gallery-card">
-                <div class="rank-badge">RANK #2</div>
-                <div class="gallery-image">🌃</div>
-                <h3 class="gallery-title">Cyber Horizon</h3>
-                <p class="gallery-author">by CyberSamurai</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 11,392</div>
-                    <button class="vote-btn">Vote</button>
-                </div>
-            </div>
-            
-            <div class="gallery-card">
-                <div class="rank-badge">RANK #3</div>
-                <div class="gallery-image">🏙️</div>
-                <h3 class="gallery-title">Neon Dystopia</h3>
-                <p class="gallery-author">by PixelMaster</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 9,876</div>
-                    <button class="vote-btn">Vote</button>
-                </div>
-            </div>
-            
-            <div class="gallery-card">
-                <div class="gallery-image">⚔️</div>
-                <h3 class="gallery-title">Digital Warrior</h3>
-                <p class="gallery-author">by ArtBot_X</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 8,543</div>
-                    <button class="vote-btn">Vote</button>
-                </div>
-            </div>
-            
-            <div class="gallery-card">
-                <div class="gallery-image">🔮</div>
-                <h3 class="gallery-title">Future Vision</h3>
-                <p class="gallery-author">by DreamWeaver</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 7,291</div>
-                    <button class="vote-btn">Vote</button>
-                </div>
-            </div>
-            
-            <div class="gallery-card">
-                <div class="gallery-image">✨</div>
-                <h3 class="gallery-title">Quantum Realm</h3>
-                <p class="gallery-author">by QuantumAI</p>
-                <div class="gallery-footer">
-                    <div class="vote-count">⚡ 6,847</div>
-                    <button class="vote-btn">Vote</button>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <div class="countdown-value">
+                            <div class="countdown-number" id="days">02</div>
+                        </div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value">
+                            <div class="countdown-number" id="hours">14</div>
+                        </div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value">
+                            <div class="countdown-number" id="minutes">19</div>
+                        </div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value">
+                            <div class="countdown-number" id="seconds">14</div>
+                        </div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="solution-section">
-        <div class="section-header">
-            <h2 class="section-title">From Vision to <span style="background: linear-gradient(135deg, #f59e0b, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Victory</span></h2>
-        </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>Create Your Content</h3>
-                <p>Use our AI generator to create unique warriors. No design skills needed.</p>
+        <!-- AI Generator Section -->
+        <div class="generator-section">
+            <div class="section-header">
+                <h2 class="section-title">Create Your Masterpiece</h2>
+                <p class="section-subtitle">Transform your imagination into stunning visuals</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚔️</div>
-                <h3>Enter Live Battles</h3>
-                <p>Submit your creation to themed battles and compete against the community.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3>Earn AIBG Tokens</h3>
-                <p>Top performers receive AIBG tokens. The more votes, the bigger the prize.</p>
-            </div>
-        </div>
-        
-        <div class="problem-solution">
-            <div class="problem-box">
-                <div class="box-icon">⚠️</div>
-                <h3>The Problem</h3>
-                <ul>
-                    <li>AI creators lack platforms to monetize their work</li>
-                    <li>No transparent competition system exists</li>
-                    <li>Community engagement is fragmented</li>
-                    <li>Traditional art markets are closed to digital creators</li>
-                </ul>
-            </div>
-            
-            <div class="solution-box">
-                <div class="box-icon">✨</div>
-                <h3>Our Solution</h3>
-                <ul>
-                    <li>Fair, blockchain-based voting system</li>
-                    <li>Weekly battle competitions with AIBG prizes</li>
-                    <li>Real-time leaderboards and rankings</li>
-                    <li>Community-driven content platform</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="how-it-works">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">🎨</div>
-                    <div class="step-content">
-                        <div class="step-number">STEP 01</div>
-                        <h4>Create Your Warrior</h4>
-                        <p>Use our AI generator to bring your imagination to life</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">⚔️</div>
-                    <div class="step-content">
-                        <div class="step-number">STEP 02</div>
-                        <h4>Enter the Arena</h4>
-                        <p>Submit to weekly themed battles and join the competition</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">🗳️</div>
-                    <div class="step-content">
-                        <div class="step-number">STEP 03</div>
-                        <h4>Community Votes</h4>
-                        <p>Players vote for their favorites using our platform</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">🏆</div>
-                    <div class="step-content">
-                        <div class="step-number">STEP 04</div>
-                        <h4>Claim Your Prize</h4>
-                        <p>Top warriors earn AIBG tokens distributed automatically</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
+            <div class="generator-card">
+                <div class="form-group">
+                    <label class="form-label">Describe your image</label>
+                    <textarea id="prompt" placeholder="A cyberpunk warrior standing in neon-lit city streets..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Style</label>
+                        <select id="style">
+                            <option>Realistic</option>
+                            <option>Anime</option>
+                            <option>Digital Art</option>
+                            <option>Cinematic</option>
+                            <option>Fantasy</option>
+                            <option>Cyberpunk</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quality</label>
+                        <select id="quality">
+                            <option>HD</option>
+                            <option>4K</option>
+                            <option>Ultra HD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-generate" onclick="generateImage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+                    </svg>
+                    Generate & Enter Battle
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="cost-info">Cost: 10 AIBG tokens per generation</div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="leaderboard-section" id="leaderboard">
+            <div class="section-header">
+                <h2 class="section-title" style="background: linear-gradient(135deg, #fbbf24, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Champions Arena</h2>
+                <p class="section-subtitle">This week's legendary creators</p>
+            </div>
+
+            <!-- Top 5 -->
+            <div class="champions-grid">
+                <div class="champion-card">
+                    <div class="champion-inner">
+                        <div class="champion-avatar">🔥</div>
+                        <div style="text-align: center;">
+                            <div class="champion-title-badge">
+                                👑 Gladiator
+                            </div>
+                            <div class="champion-rank">#1</div>
+                        </div>
+                        <div class="champion-name">NeuralNinja.eth</div>
+                        <div class="champion-votes">12,847</div>
+                        <div class="votes-label">votes</div>
+                    </div>
+                </div>
+
+                <div class="champion-card">
+                    <div class="champion-inner">
+                        <div class="champion-avatar">⚡</div>
+                        <div style="text-align: center;">
+                            <div class="champion-title-badge">
+                                🏆 Champion
+                            </div>
+                            <div class="champion-rank">#2</div>
+                        </div>
+                        <div class="champion-name">CyberSamurai</div>
+                        <div class="champion-votes">11,392</div>
+                        <div class="votes-label">votes</div>
+                    </div>
+                </div>
+
+                <div class="champion-card">
+                    <div class="champion-inner">
+                        <div class="champion-avatar">💎</div>
+                        <div style="text-align: center;">
+                            <div class="champion-title-badge">
+                                ⭐ Knight
+                            </div>
+                            <div class="champion-rank">#3</div>
+                        </div>
+                        <div class="champion-name">PixelMaster</div>
+                        <div class="champion-votes">9,876</div>
+                        <div class="votes-label">votes</div>
+                    </div>
+                </div>
+
+                <div class="champion-card">
+                    <div class="champion-inner">
+                        <div class="champion-avatar">🚀</div>
+                        <div style="text-align: center;">
+                            <div class="champion-title-badge">
+                                ⚔️ Warrior
+                            </div>
+                            <div class="champion-rank">#4</div>
+                        </div>
+                        <div class="champion-name">DreamWeaver</div>
+                        <div class="champion-votes">8,654</div>
+                        <div class="votes-label">votes</div>
+                    </div>
+                </div>
+
+                <div class="champion-card">
+                    <div class="champion-inner">
+                        <div class="champion-avatar">✨</div>
+                        <div style="text-align: center;">
+                            <div class="champion-title-badge">
+                                🎖️ Contender
+                            </div>
+                            <div class="champion-rank">#5</div>
+                        </div>
+                        <div class="champion-name">AIAlchemist</div>
+                        <div class="champion-votes">7,892</div>
+                        <div class="votes-label">votes</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ranks 6-10 Table -->
+            <div class="leaderboard-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Creator</th>
+                            <th style="text-align: right;">Votes</th>
+                            <th style="text-align: right;">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="rank-number">#6</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">⭐</div>
+                                    <span class="creator-name">NeoCreator</span>
+                                </div>
+                            </td>
+                            <td class="votes-number">6,543</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 51%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-number">#7</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🌟</div>
+                                    <span class="creator-name">VisionaryAI</span>
+                                </div>
+                            </td>
+                            <td class="votes-number">5,234</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 41%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-number">#8</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🎨</div>
+                                    <span class="creator-name">QuantumArtist</span>
+                                </div>
+                            </td>
+                            <td class="votes-number">4,876</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 38%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-number">#9</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">💫</div>
+                                    <span class="creator-name">DigitalDreamer</span>
+                                </div>
+                            </td>
+                            <td class="votes-number">4,321</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 34%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank-number">#10</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🎭</div>
+                                    <span class="creator-name">CreativeForce</span>
+                                </div>
+                            </td>
+                            <td class="votes-number">3,987</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 31%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="gallery-section" id="gallery">
+            <div class="section-header">
+                <h2 class="section-title">Battle Gallery</h2>
+                <p class="section-subtitle">This week's submitted masterpieces</p>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be generated by JavaScript -->
+            </div>
+
+            <div class="view-all-container">
+                <button class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.05rem;">
+                    View All Submissions
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vision Section -->
+        <div class="vision-section" id="vision">
+            <div class="vision-intro">
+                <h2 class="section-title">Our Vision</h2>
+                <p class="vision-text">
+                    In the AI era, everyone can create. But true recognition and reward remain elusive. 
+                    We're building the battleground where imagination meets opportunity, where creators fight for glory and earn real value.
+                </p>
+            </div>
+
+            <!-- Problem -->
+            <div class="content-card problem">
+                <div class="content-header">
+                    <div class="content-icon problem">⚠️</div>
+                    <div>
+                        <h3 class="content-title problem">The Problem</h3>
+                        <p class="content-text">
+                            Creating has become easy, but getting recognized is harder than ever. Millions of AI-generated artworks are uploaded daily, yet most disappear into the void without feedback, recognition, or reward.
+                        </p>
+                        <ul class="content-list">
+                            <li>
+                                <span class="bullet problem">•</span>
+                                <span>Content overload leads to value dilution</span>
+                            </li>
+                            <li>
+                                <span class="bullet problem">•</span>
+                                <span>No clear path to recognition for new creators</span>
+                            </li>
+                            <li>
+                                <span class="bullet problem">•</span>
+                                <span>Zero financial rewards for creative effort</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution -->
+            <div class="content-card solution">
+                <div class="content-header">
+                    <div class="content-icon solution">✅</div>
+                    <div>
+                        <h3 class="content-title solution">The Solution</h3>
+                        <p class="content-text">
+                            AI BattleGround creates a competitive arena where creativity is valued, judged fairly by the community, and rewarded tangibly. We transform creation from a solo act into an exciting, rewarding competition.
+                        </p>
+                        <ul class="content-list">
+                            <li>
+                                <span class="bullet solution">•</span>
+                                <span>Weekly challenges give context and meaning to every creation</span>
+                            </li>
+                            <li>
+                                <span class="bullet solution">•</span>
+                                <span>Community voting ensures fair, transparent evaluation</span>
+                            </li>
+                            <li>
+                                <span class="bullet solution">•</span>
+                                <span>Real rewards in AIBG tokens and prize pools</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-card how">
+                <h3 class="content-title how" style="text-align: center; margin-bottom: 2.5rem;">How It Works</h3>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-icon">🎨</div>
+                        <div class="step-title">Create</div>
+                        <div class="step-desc">Generate AI images on our platform for weekly themes</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon">📤</div>
+                        <div class="step-title">Submit</div>
+                        <div class="step-desc">Upload your masterpiece to enter the battle</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon">🗳️</div>
+                        <div class="step-title">Vote</div>
+                        <div class="step-desc">Community votes on Telegram bot for the best works</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon">🏆</div>
+                        <div class="step-title">Earn</div>
+                        <div class="step-desc">Winners get AIBG tokens, voters share rewards</div>
+                    </div>
+                </div>
+                <div class="token-utility">
+                    <p>
+                        <strong>Token Utility:</strong> Pay AIBG tokens to generate images and cast votes. 
+                        This creates real demand and sustainable token value.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <div class="cta-card">
+                <h2 class="cta-title">Ready to Enter the Arena?</h2>
+                <p class="cta-subtitle">
+                    Join 15,800+ creators competing for $247K in rewards
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn-cta white">Start Creating Now</button>
+                    <button class="btn-cta dark">Read Whitepaper</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer>
-        <div class="footer-logo">AI BattleGround</div>
-        <div class="footer-links">
-            <a href="#">Telegram</a>
-            <a href="#">Twitter</a>
-            <a href="#">Discord</a>
-            <a href="#">Docs</a>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">AIBG</div>
+                <span class="footer-logo-text">AI BattleGround</span>
+            </div>
+            <p class="footer-desc">The ultimate creative battleground powered by Web3</p>
+            <div class="footer-links">
+                <a href="#">Twitter</a>
+                <a href="#">Discord</a>
+                <a href="#">Telegram</a>
+                <a href="#">Medium</a>
+            </div>
+            <p class="footer-copyright">© 2025 AI BattleGround. All rights reserved.</p>
         </div>
-        <p>© 2025 AI BattleGround. All rights reserved.</p>
     </footer>
 
     <script>
-        let timer = { days: 2, hours: 14, minutes: 37, seconds: 42 };
+        // Countdown Timer
+        let timeLeft = {
+            days: 2,
+            hours: 14,
+            minutes: 19,
+            seconds: 14
+        };
 
-        function updateTimer() {
-            timer.seconds--;
-            
-            if (timer.seconds < 0) {
-                timer.seconds = 59;
-                timer.minutes--;
+        function updateCountdown() {
+            if (timeLeft.seconds > 0) {
+                timeLeft.seconds--;
+            } else if (timeLeft.minutes > 0) {
+                timeLeft.minutes--;
+                timeLeft.seconds = 59;
+            } else if (timeLeft.hours > 0) {
+                timeLeft.hours--;
+                timeLeft.minutes = 59;
+                timeLeft.seconds = 59;
+            } else if (timeLeft.days > 0) {
+                timeLeft.days--;
+                timeLeft.hours = 23;
+                timeLeft.minutes = 59;
+                timeLeft.seconds = 59;
             }
-            if (timer.minutes < 0) {
-                timer.minutes = 59;
-                timer.hours--;
-            }
-            if (timer.hours < 0) {
-                timer.hours = 23;
-                timer.days--;
-            }
-            if (timer.days < 0) {
-                timer.days = timer.hours = timer.minutes = timer.seconds = 0;
-            }
-            
-            document.getElementById('days').textContent = String(timer.days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(timer.hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(timer.minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(timer.seconds).padStart(2, '0');
+
+            document.getElementById('days').textContent = String(timeLeft.days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(timeLeft.hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(timeLeft.minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(timeLeft.seconds).padStart(2, '0');
         }
 
-        setInterval(updateTimer, 1000);
+        setInterval(updateCountdown, 1000);
 
-        document.querySelector('.generate-btn').addEventListener('click', function() {
-            const btn = this;
-            const originalText = btn.textContent;
-            btn.textContent = '⚡ GENERATING...';
-            btn.style.opacity = '0.7';
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Generate Gallery Items
+        const galleryGrid = document.getElementById('galleryGrid');
+        const gradients = [
+            'linear-gradient(135deg, #a855f7, #ec4899)',
+            'linear-gradient(135deg, #3b82f6, #06b6d4)',
+            'linear-gradient(135deg, #f59e0b, #ef4444)',
+            'linear-gradient(135deg, #10b981, #06b6d4)',
+            'linear-gradient(135deg, #8b5cf6, #ec4899)',
+            'linear-gradient(135deg, #f97316, #dc2626)',
+            'linear-gradient(135deg, #06b6d4, #3b82f6)',
+            'linear-gradient(135deg, #84cc16, #22c55e)'
+        ];
+
+        const emojis = ['🎭', '🌌', '🏙️', '🚀', '💠', '🔮', '⚡', '🎨', '💎', '🌟', '✨', '🔥', '💫', '🎪', '🌈', '🎯', '🎬', '🎮', '🎸', '🎺'];
+
+        for (let i = 0; i < 20; i++) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.style.background = gradients[i % gradients.length];
+            
+            item.innerHTML = `
+                <div class="gallery-placeholder">${emojis[i]}</div>
+                <div class="gallery-overlay">
+                    <div class="creator-info">Creator${i + 1}</div>
+                    <div class="vote-count">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="m9 11 3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                        ${Math.floor(Math.random() * 1000) + 100} votes
+                    </div>
+                </div>
+            `;
+            
+            galleryGrid.appendChild(item);
+        }
+
+        // Generate Image Function
+        function generateImage() {
+            const prompt = document.getElementById('prompt').value;
+            const style = document.getElementById('style').value;
+            const quality = document.getElementById('quality').value;
+            
+            if (!prompt) {
+                alert('Please describe your image first!');
+                return;
+            }
+            
+            const btn = document.querySelector('.btn-generate');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span>Generating...</span>';
             btn.disabled = true;
             
             setTimeout(() => {
-                btn.textContent = '✅ WARRIOR CREATED!';
-                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
+                btn.innerHTML = '<span>✓ Successfully Entered Battle!</span>';
                 setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
-                    btn.style.opacity = '1';
+                    btn.innerHTML = originalText;
                     btn.disabled = false;
+                    document.getElementById('prompt').value = '';
                 }, 2000);
             }, 2000);
-        });
+        }
 
-        document.querySelector('.wallet-btn').addEventListener('click', () => {
-            alert('🦊 Connect your Solana wallet to start battling!');
-        });
-
-        document.querySelector('.launch-btn').addEventListener('click', () => {
-            alert('🚀 Opening Telegram Bot...\n\nJoin the battle through our Telegram app!');
-        });
-
-        document.querySelectorAll('.vote-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const originalText = this.textContent;
-                this.textContent = '✓ Voted!';
-                this.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                this.disabled = true;
-                
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
-                    this.disabled = false;
-                }, 3000);
-            });
-        });
-
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-            });
-        });
-
-        document.querySelectorAll('.option-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const parent = this.parentElement;
-                parent.querySelectorAll('.option-card').forEach(c => {
-                    c.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-                    c.style.background = 'rgba(255, 255, 255, 0.03)';
-                });
-                this.style.borderColor = '#6366f1';
-                this.style.background = 'rgba(99, 102, 241, 0.1)';
             });
         });
     </script>
