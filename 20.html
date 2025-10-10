@@ -1,0 +1,3207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI BattleGround - Where Video Creators Compete for Glory</title>
+    <title>AI BattleGround - Where Video Creators Compete for Glory</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    
+    html {
+        font-size: 85%;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: #6366f1;
+        --secondary: #8b5cf6;
+        --accent: #f59e0b;
+        --gold: #fbbf24;
+        --silver: #d1d5db;
+        --bronze: #c2410c;
+    }
+
+    body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #000000;  /* 완전한 블랙 */
+    color: #fff;
+    overflow-x: hidden;
+}
+
+    body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+    animation: bgShift 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+    body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.015) 50%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+    @keyframes bgShift {
+        0%, 100% { 
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        50% { 
+            opacity: 0.8;
+            transform: scale(1.1) rotate(2deg);
+        }
+    }
+
+    nav {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        padding: 20px 5%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(30px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s;
+    }
+
+    nav.scrolled {
+        background: rgba(0, 0, 0, 0.95);
+        border-bottom-color: var(--accent);
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 26px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff, var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+        width: 38px;
+        height: 38px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+        50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 40px;
+        list-style: none;
+    }
+
+    .nav-links a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-size: 15px;
+        position: relative;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #fff;
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    .wallet-btn {
+        padding: 12px 28px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .wallet-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+    }
+
+    .btn-launch {
+        padding: 12px 28px;
+        background: transparent;
+        border: 2px solid rgba(236, 72, 153, 0.5);
+        border-radius: 10px;
+        color: #ec4899;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    .btn-launch:hover {
+        background: rgba(236, 72, 153, 0.1);
+        border-color: #ec4899;
+        transform: translateY(-2px);
+    }
+
+    .hero {
+        margin-top: 80px;
+        padding: 120px 5% 80px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        animation: heroPulse 4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes heroPulse {
+        0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.5;
+        }
+        50% { 
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.8;
+        }
+    }
+
+    .hero-badge {
+        display: inline-block;
+        padding: 10px 24px;
+        background: rgba(245, 158, 11, 0.15);
+        border: 2px solid rgba(245, 158, 11, 0.4);
+        border-radius: 50px;
+        font-size: 14px;
+        color: var(--accent);
+        font-weight: 700;
+        margin-bottom: 30px;
+        animation: float 3s ease-in-out infinite;
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .hero h1 {
+        font-size: clamp(3.5rem, 10vw, 7rem);
+        font-weight: 900;
+        margin-bottom: 30px;
+        line-height: 1.1;
+        letter-spacing: -3px;
+        background: linear-gradient(135deg, #fff 0%, #b794f6 40%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradientFlow 8s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .hero-subtitle {
+        font-size: 1.4rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 50px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+        font-weight: 500;
+    }
+
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin-top: 60px;
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        padding: 30px 40px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .stat-card:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(99, 102, 241, 0.1),
+            transparent 30deg
+        );
+        animation: rotate 4s linear infinite;
+    }
+
+    @keyframes rotate {
+        100% { transform: rotate(360deg); }
+    }
+
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 30px 70px rgba(99, 102, 241, 0.5);
+        border-color: var(--primary);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -2px;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    .battle-status {
+        max-width: 900px;
+        margin: 60px auto;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 40px;
+        border: 2px solid rgba(245, 158, 11, 0.5);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(245, 158, 11, 0.3);
+        transition: all 0.3s;
+    }
+
+    .battle-status:hover {
+        border-color: rgba(245, 158, 11, 0.8);
+        box-shadow: 0 0 60px rgba(245, 158, 11, 0.5);
+        transform: translateY(-5px);
+    }
+
+    .battle-status::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.15), transparent);
+        animation: slideShine 4s ease-in-out infinite;
+    }
+
+    @keyframes slideShine {
+        0% { left: -100%; }
+        50%, 100% { left: 100%; }
+    }
+
+    .battle-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .battle-theme {
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        background: linear-gradient(90deg, #fff, var(--accent), #fff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 0% center; }
+        100% { background-position: 200% center; }
+    }
+
+    .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 18px;
+        background: rgba(239, 68, 68, 0.2);
+        border: 2px solid rgba(239, 68, 68, 0.5);
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 13px;
+    }
+
+    .live-dot {
+        width: 10px;
+        height: 10px;
+        background: #ef4444;
+        border-radius: 50%;
+        animation: blink 1.5s infinite;
+        box-shadow: 0 0 15px #ef4444;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    .timer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .timer-block {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .timer-block::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .timer-block:hover {
+        border-color: var(--accent);
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+    }
+
+    .timer-block:hover::before {
+        opacity: 1;
+    }
+
+    .timer-number {
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .timer-unit {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    .generator-section {
+        padding: 120px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        margin-bottom: 20px;
+        letter-spacing: -3px;
+        background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-top: 25px;
+    }
+
+    .generator-card {
+        background: #0a0a0a;
+        border: 2px solid rgba(245, 158, 11, 0.3);
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 30px 80px rgba(245, 158, 11, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .prompt-input {
+        width: 100%;
+        padding: 20px;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        font-size: 15px;
+        font-family: inherit;
+        font-weight: 500;
+        transition: all 0.3s;
+        resize: none;
+        height: 120px;
+    }
+
+    .prompt-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .style-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    .style-option {
+        padding: 16px;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .style-option:hover {
+        border-color: var(--primary);
+        background: rgba(99, 102, 241, 0.05);
+    }
+
+    .style-option.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-color: transparent;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .generate-btn {
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--accent), #ea580c);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.4s;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
+    }
+
+    .generate-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(245, 158, 11, 0.6);
+    }
+
+    .cost-info {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.4);
+        font-weight: 600;
+    }
+
+    .champion-arena {
+        padding: 100px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .arena-title {
+        font-size: 4rem;
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, var(--gold), #f97316);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -2px;
+    }
+
+    .voting-live-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 40px;
+        padding: 12px 30px;
+        background: rgba(239, 68, 68, 0.15);
+        border: 2px solid rgba(239, 68, 68, 0.5);
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.95rem;
+        max-width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .champions-podium {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 60px auto;
+        align-items: end;
+    }
+
+    .rank-2 { grid-column: 1; grid-row: 2; }
+    .rank-1 { grid-column: 2; grid-row: 1 / 3; }
+    .rank-3 { grid-column: 3; grid-row: 2; }
+
+    .champion-box {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    padding: 35px;
+    text-align: center;
+    position: relative;
+    border: 3px solid;
+    transition: all 0.4s;
+    animation: cardEntry 0.6s ease-out;
+}
+
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.champion-box:hover {
+    transform: translateY(-15px) rotateY(5deg);
+    box-shadow: 0 20px 80px currentColor;
+}
+
+    .rank-1 {
+        border-color: var(--gold);
+        box-shadow: 0 0 60px rgba(251, 191, 36, 0.6);
+    }
+
+    .rank-2 {
+        border-color: var(--silver);
+        box-shadow: 0 0 40px rgba(209, 213, 219, 0.4);
+    }
+
+    .rank-3 {
+        border-color: var(--bronze);
+        box-shadow: 0 0 40px rgba(194, 65, 12, 0.4);
+    }
+
+    .champion-crown {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 0 20px currentColor);
+        animation: crownFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes crownFloat {
+        0%, 100% { transform: translateY(0) rotate(-5deg); }
+        50% { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    .rank-1 .champion-crown { font-size: 6rem; }
+
+    .champion-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    .rank-1 .champion-badge {
+        background: linear-gradient(135deg, var(--gold), #fcd34d);
+        color: #000;
+        font-size: 1rem;
+    }
+
+    .rank-2 .champion-badge {
+        background: linear-gradient(135deg, var(--silver), #9ca3af);
+        color: #000;
+    }
+
+    .rank-3 .champion-badge {
+        background: linear-gradient(135deg, var(--bronze), #ea580c);
+        color: #fff;
+    }
+
+    .champion-rank {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 10px;
+        animation: rankGlow 3s ease-in-out infinite;
+    }
+
+    .rank-1 .champion-rank { font-size: 3.5rem; }
+
+    .champion-name {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .rank-1 .champion-name { font-size: 2rem; }
+
+    .champion-votes {
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+    }
+
+    .rank-1 .champion-votes { font-size: 2.8rem; }
+
+    .champion-progress {
+        width: 100%;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        overflow: hidden;
+        position: relative;
+        margin-top: 15px;
+    }
+
+    .champion-progress-bar {
+    height: 100%;
+    border-radius: 50px;
+    animation: fillBar 2s ease-out forwards, pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.champion-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+    }
+
+    .rank-1 .champion-progress-bar {
+        background: linear-gradient(90deg, var(--gold), #fcd34d);
+    }
+
+    .rank-2 .champion-progress-bar {
+        background: linear-gradient(90deg, var(--silver), #9ca3af);
+    }
+
+    .rank-3 .champion-progress-bar {
+        background: linear-gradient(90deg, var(--bronze), #ea580c);
+    }
+
+    @keyframes fillBar {
+        from { width: 0; }
+        to { width: var(--progress); }
+        @keyframes rankGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px currentColor;
+        transform: scale(1);
+    }
+    50% {
+        text-shadow: 0 0 30px currentColor, 0 0 50px currentColor;
+        transform: scale(1.05);
+    }
+}
+    }
+
+    .votes-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+
+    .runners-section {
+        max-width: 1200px;
+        margin: 60px auto;
+    }
+
+    .runners-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .runner-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        transition: all 0.3s;
+    }
+
+    .runner-box:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+    transform: translateX(15px) scale(1.05) perspective(500px) rotateY(-5deg);
+    box-shadow: -10px 15px 50px rgba(99, 102, 241, 0.5);
+}
+
+    .runner-rank {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.3);
+        width: 60px;
+    }
+
+    .runner-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        transition: all 0.3s;
+    }
+
+    .runner-box:hover .runner-avatar {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+    }
+
+    .runner-info {
+        flex: 1;
+    }
+
+    .runner-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .runner-votes {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .runner-progress {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        overflow: hidden;
+    }
+
+    .runner-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 50px;
+        animation: fillBar 2s ease-out forwards;
+    }
+
+    .leaderboard-table-section {
+        max-width: 1200px;
+        margin: 60px auto;
+    }
+
+    .leaderboard-table {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead tr {
+        background: rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+        padding: 20px 30px;
+        text-align: left;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    th:last-child {
+        text-align: right;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s;
+    }
+
+    tbody tr:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    td {
+        padding: 20px 30px;
+    }
+
+    .table-rank {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .creator-cell {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .creator-avatar {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #ec4899, #8b5cf6);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .creator-name {
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    .table-votes {
+        font-weight: 800;
+        text-align: right;
+        font-size: 1.1rem;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50px;
+        height: 8px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 50px;
+    }
+
+    .gallery-section {
+        padding: 100px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .filter-tab {
+        padding: 12px 28px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 50px;
+    }
+
+    .gallery-item {
+        aspect-ratio: 1/1;
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        background: linear-gradient(135deg, #a855f7, #ec4899);
+        transition: all 0.4s;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(168, 85, 247, 0.5);
+    }
+
+    .gallery-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.8;
+        transition: all 0.4s;
+        font-size: 3rem;
+    }
+
+    .gallery-item:hover .gallery-placeholder {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+        opacity: 0;
+        transition: opacity 0.4s;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+    .gallery-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        background: linear-gradient(135deg, var(--accent), #ea580c);
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .gallery-creator {
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+    }
+
+    .gallery-vote-count {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 600;
+    }
+
+    .vision-explainer-section {
+        padding: 120px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .vision-container {
+        text-align: center;
+    }
+
+    .vision-main-title {
+        font-size: 4rem;
+        font-weight: 900;
+        margin-bottom: 25px;
+        letter-spacing: -2px;
+    }
+
+    .vision-main-desc {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 800px;
+        margin: 0 auto 80px;
+        line-height: 1.8;
+    }
+
+    .vision-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+    }
+
+    .vision-card {
+        background: #0a0a0a;
+        border: 2px solid;
+        border-radius: 24px;
+        padding: 50px;
+        text-align: left;
+        transition: all 0.4s;
+    }
+
+    .vision-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    .problem-card {
+        border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .problem-card:hover {
+        border-color: #ef4444;
+        box-shadow: 0 30px 80px rgba(239, 68, 68, 0.3);
+    }
+
+    .solution-card {
+        border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .solution-card:hover {
+        border-color: #10b981;
+        box-shadow: 0 30px 80px rgba(16, 185, 129, 0.3);
+    }
+
+    .how-card {
+        border-color: rgba(139, 92, 246, 0.4);
+    }
+
+    .how-card:hover {
+        border-color: #8b5cf6;
+        box-shadow: 0 30px 80px rgba(139, 92, 246, 0.3);
+    }
+
+    .vision-card-icon {
+        font-size: 3.5rem;
+        margin-bottom: 25px;
+        filter: drop-shadow(0 0 20px currentColor);
+    }
+
+    .vision-card-title {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+
+    .problem-card .vision-card-title {
+        background: linear-gradient(135deg, #fca5a5, #ef4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .solution-card .vision-card-title {
+        background: linear-gradient(135deg, #86efac, #10b981);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .how-card .vision-card-title {
+        background: linear-gradient(135deg, #c084fc, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .vision-card-desc {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+
+    .vision-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .vision-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .list-bullet {
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    .problem-card .list-bullet {
+        color: #fca5a5;
+    }
+
+    .solution-card .list-bullet {
+        color: #86efac;
+    }
+
+    .how-card .list-bullet {
+        color: #c084fc;
+    }
+
+    .tokenomics-section {
+        padding: 100px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tokenomics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+    }
+
+    .token-flow-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.4s;
+    }
+
+    .token-flow-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary);
+        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+    }
+
+    .token-flow-card.highlight {
+        border-color: var(--accent);
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+    }
+
+    .token-flow-card.highlight:hover {
+        border-color: var(--gold);
+        box-shadow: 0 20px 60px rgba(251, 191, 36, 0.4);
+    }
+
+    .token-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+
+    .token-flow-card h3 {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+    }
+
+    .token-flow-card p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .token-amount {
+        display: inline-block;
+        padding: 10px 24px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.9rem;
+    }
+
+    .prize-distribution {
+        margin-top: 80px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 50px;
+    }
+
+    .distribution-title {
+        font-size: 2rem;
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .distribution-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .dist-bar {
+        position: relative;
+    }
+
+    .dist-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .dist-bar-fill {
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 20px;
+        font-size: 1.5rem;
+        font-weight: 900;
+        transition: all 0.4s;
+    }
+
+    .dist-bar:hover .dist-bar-fill {
+        transform: scaleX(1.02);
+    }
+
+    .view-all-container {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .btn-view-all {
+        padding: 16px 48px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.4s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-view-all:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(99, 102, 241, 0.6);
+    }
+
+    .vision-roadmap-section {
+        padding: 120px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .roadmap-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 100px;
+        letter-spacing: -2px;
+        background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientFlow 6s ease infinite;
+    }
+
+    .roadmap-timeline {
+        position: relative;
+    }
+
+    .roadmap-timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, 
+            var(--accent) 0%, 
+            var(--primary) 30%, 
+            var(--secondary) 60%, 
+            rgba(99, 102, 241, 0.3) 100%
+        );
+        transform: translateX(-50%);
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+
+    .roadmap-item {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 50px;
+        margin-bottom: 80px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUpRoadmap 0.8s ease forwards;
+    }
+
+    .roadmap-item:nth-child(1) { animation-delay: 0.1s; }
+    .roadmap-item:nth-child(2) { animation-delay: 0.2s; }
+    .roadmap-item:nth-child(3) { animation-delay: 0.3s; }
+    .roadmap-item:nth-child(4) { animation-delay: 0.4s; }
+    .roadmap-item:nth-child(5) { animation-delay: 0.5s; }
+    .roadmap-item:nth-child(6) { animation-delay: 0.6s; }
+    .roadmap-item:nth-child(7) { animation-delay: 0.7s; }
+
+    @keyframes fadeInUpRoadmap {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .roadmap-item:nth-child(even) .roadmap-content:first-child {
+        order: 3;
+    }
+
+    .roadmap-content {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(99, 102, 241, 0.3);
+        border-radius: 24px;
+        padding: 40px;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .roadmap-content::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(99, 102, 241, 0.15),
+            transparent 60deg
+        );
+        animation: rotate 6s linear infinite;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    .roadmap-content:hover::before {
+        opacity: 1;
+    }
+
+    .roadmap-content:hover {
+        border-color: var(--primary);
+        box-shadow: 0 30px 80px rgba(99, 102, 241, 0.4);
+        transform: translateY(-10px) scale(1.02);
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .roadmap-content.completed {
+        border-color: var(--accent);
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(0, 0, 0, 0.8));
+        box-shadow: 0 20px 60px rgba(245, 158, 11, 0.3);
+    }
+
+    .roadmap-content.completed::before {
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(245, 158, 11, 0.2),
+            transparent 60deg
+        );
+    }
+
+    .roadmap-content.completed:hover {
+        border-color: var(--gold);
+        box-shadow: 0 30px 80px rgba(251, 191, 36, 0.5);
+    }
+
+    .roadmap-dot {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.8), 0 0 30px rgba(99, 102, 241, 0.8);
+        position: relative;
+        z-index: 2;
+        animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.8), 0 0 30px rgba(99, 102, 241, 0.8);
+        }
+        50% {
+            box-shadow: 0 0 0 8px rgba(99, 102, 241, 0.3), 0 0 50px rgba(99, 102, 241, 1);
+        }
+    }
+
+    .roadmap-dot.completed {
+        background: linear-gradient(135deg, var(--gold), #ea580c);
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(251, 191, 36, 1);
+    }
+
+    .roadmap-dot.completed::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #000;
+        font-weight: 900;
+        font-size: 16px;
+    }
+
+    .roadmap-period {
+        font-size: 0.95rem;
+        font-weight: 900;
+        color: #fbbf24;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        margin-bottom: 15px;
+        display: inline-block;
+        padding: 8px 18px;
+        background: rgba(245, 158, 11, 0.2);
+        border-radius: 50px;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    }
+
+    .roadmap-content.completed .roadmap-period {
+        background: linear-gradient(135deg, var(--gold), #fcd34d);
+        color: #000;
+        border-color: transparent;
+        text-shadow: none;
+    }
+
+    .roadmap-item-title {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        letter-spacing: -1px;
+        color: #ffffff;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .roadmap-content.completed .roadmap-item-title {
+        background: linear-gradient(135deg, var(--gold), #fcd34d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: none;
+    }
+
+    .roadmap-desc {
+        color: rgba(255, 255, 255, 0.65);
+        line-height: 1.8;
+        font-weight: 500;
+        font-size: 1.05rem;
+    }
+
+    .roadmap-status {
+        display: inline-block;
+        padding: 8px 20px;
+        background: linear-gradient(135deg, var(--gold), #fcd34d);
+        color: #000;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        animation: shimmer 3s linear infinite;
+    }
+
+    .cta-section {
+        padding: 120px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-container {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        border: 2px solid rgba(99, 102, 241, 0.3);
+        border-radius: 32px;
+        padding: 80px 60px;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(20px);
+    }
+
+    .cta-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(99, 102, 241, 0.15),
+            transparent 60deg
+        );
+        animation: rotate 8s linear infinite;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
+
+    .cta-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 24px;
+        background: rgba(239, 68, 68, 0.2);
+        border: 2px solid rgba(239, 68, 68, 0.5);
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 13px;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .cta-title {
+        font-size: 5rem;
+        font-weight: 900;
+        margin-bottom: 25px;
+        letter-spacing: -2px;
+        background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.1;
+    }
+
+    .cta-subtitle {
+        font-size: 1.4rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 50px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+    }
+
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 60px;
+        flex-wrap: wrap;
+    }
+
+    .cta-btn-primary {
+        padding: 20px 50px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 900;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.4s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
+    }
+
+    .cta-btn-primary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.7);
+    }
+
+    .cta-btn-secondary {
+        padding: 20px 50px;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        color: white;
+        font-weight: 900;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.4s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .cta-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-5px);
+    }
+
+    .cta-stats {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        flex-wrap: wrap;
+    }
+
+    .cta-stat {
+        text-align: center;
+    }
+
+    .cta-stat-number {
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), #fcd34d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+    }
+
+    .cta-stat-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    .footer {
+        padding: 80px 5%;
+        border-top: 2px solid rgba(255, 255, 255, 0.05);
+        margin-top: 100px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 60px;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-desc {
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.7;
+        font-weight: 500;
+    }
+
+    .footer-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-title {
+        font-weight: 800;
+        margin-bottom: 5px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+        transition: all 0.3s;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+        color: var(--accent);
+        transform: translateX(5px);
+    }
+
+    @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .hero h1 { font-size: 3rem; }
+        .hero-stats { flex-direction: column; gap: 20px; }
+        .battle-header { justify-content: center; }
+        .timer-grid { grid-template-columns: repeat(2, 1fr); }
+        .champions-podium {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+        }
+        .rank-1, .rank-2, .rank-3 { grid-column: 1; grid-row: auto; }
+        .runners-grid { grid-template-columns: 1fr; }
+        .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        .roadmap-timeline::before { display: none; }
+        .roadmap-item { grid-template-columns: 1fr; }
+        .roadmap-dot { display: none; }
+        .footer-content { grid-template-columns: 1fr; gap: 40px; }
+        .cta-title { font-size: 3rem; }
+        .cta-container { padding: 60px 30px; }
+        .cta-buttons { flex-direction: column; }
+        .cta-btn-primary, .cta-btn-secondary { width: 100%; }
+    }
+    .gallery-item::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(45deg, 
+            rgba(99, 102, 241, 0.5), 
+            rgba(139, 92, 246, 0.5), 
+            rgba(236, 72, 153, 0.5)
+        );
+        border-radius: 16px;
+        opacity: 0;
+        transition: opacity 0.4s;
+        z-index: -1;
+        filter: blur(10px);
+    }
+
+    .gallery-item:hover::before {
+        opacity: 1;
+    }
+
+    /* Video Badge Animation */
+    .gallery-badge {
+        animation: badgePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.8);
+        }
+    }
+
+    /* CTA Button Advanced Hover */
+    .cta-btn-primary {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .cta-btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Stat Card Glow Effect */
+    .stat-card {
+        box-shadow: 0 0 0 rgba(99, 102, 241, 0);
+        transition: box-shadow 0.4s;
+    }
+
+    .stat-card:hover {
+        box-shadow: 
+            0 0 20px rgba(99, 102, 241, 0.4),
+            0 0 40px rgba(99, 102, 241, 0.2),
+            0 0 60px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Generator Button Ripple Effect */
+    .generate-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .generate-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s, opacity 0.6s;
+        opacity: 0;
+    }
+
+    .generate-btn:active::after {
+        width: 500px;
+        height: 500px;
+        opacity: 1;
+        transition: 0s;
+    }
+
+    /* ===== 6번 CSS 끝 ===== */
+.hall-of-fame-section {
+    padding: 100px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.hall-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.hall-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.hall-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transition: left 0.6s;
+}
+
+.hall-card:hover::before {
+    left: 100%;
+}
+
+.hall-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(251, 191, 36, 0.4);
+}
+
+.hall-week {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, var(--gold), #fcd34d);
+    color: #000;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+.hall-champion {
+    margin-bottom: 20px;
+}
+
+.hall-avatar {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
+}
+
+.hall-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hall-votes {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.hall-theme {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    margin-top: 15px;
+}
+/* 실시간 활동 피드 */
+.live-activity-feed {
+    position: fixed;
+    right: 20px;
+    top: 120px;
+    width: 320px;
+    max-height: 450px;
+    overflow: hidden;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.activity-item {
+    background: rgba(99, 102, 241, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 12px;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    pointer-events: auto;
+    transform-origin: right center;
+}
+
+.activity-item:hover {
+    transform: scale(1.02);
+    border-color: rgba(99, 102, 241, 0.7);
+    box-shadow: 0 10px 35px rgba(99, 102, 241, 0.5);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(150%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.activity-item.fade-out {
+    animation: fadeOutRight 0.5s ease-out forwards;
+}
+
+@keyframes fadeOutRight {
+    to {
+        opacity: 0;
+        transform: translateX(120%) scale(0.9);
+    }
+}
+
+.activity-icon {
+    font-size: 1.3rem;
+    margin-right: 8px;
+}
+</style>
+</head>
+<body>
+    <!-- 실시간 활동 피드 -->
+    <div class="live-activity-feed" id="activityFeed">
+        <!-- 자동 생성됨 -->
+    </div>
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">🎬</div>
+                AI BattleGround
+            </div>
+            <ul class="nav-links">
+                <li><a href="#arena">Arena</a></li>
+                <li><a href="#generator">Create</a></li>
+                <li><a href="#cinema">Cinema</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#docs">Docs</a></li>
+            </ul>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <button class="btn-launch">Launch App</button>
+                <button class="wallet-btn">Connect Wallet</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">🔥 Week 14: "Urban Sunrise" - Battle is LIVE</div>
+        <h1>Create. Battle. Gain Recognition.</h1>
+        <p class="hero-subtitle">
+            Shaping the Future of Creative Competition. Where every video battles for glory, and only legends claim the crown.
+        </p>
+        
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-number">$247K</div>
+                <div class="stat-label">Prize Pool</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8.4K</div>
+                <div class="stat-label">Videos Created</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">892K</div>
+                <div class="stat-label">Total Views</div>
+            </div>
+        </div>
+
+        <div class="battle-status">
+            <div class="battle-header">
+                <div class="battle-theme">WEEK 14: "URBAN SUNRISE"</div>
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="timer-grid">
+                <div class="timer-block">
+                    <div class="timer-number" id="days">02</div>
+                    <div class="timer-unit">Days</div>
+                </div>
+                <div class="timer-block">
+                    <div class="timer-number" id="hours">14</div>
+                    <div class="timer-unit">Hours</div>
+                </div>
+                <div class="timer-block">
+                    <div class="timer-number" id="minutes">37</div>
+                    <div class="timer-unit">Minutes</div>
+                </div>
+                <div class="timer-block">
+                    <div class="timer-number" id="seconds">42</div>
+                    <div class="timer-unit">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="generator" class="generator-section">
+        <div class="section-header">
+            <h2 class="section-title">Creation Studio</h2>
+<p class="section-subtitle">Next-generation AI video creation — Bring your vision to life</p>
+        </div>
+
+        <div class="generator-card">
+            <div class="form-group">
+                <label class="form-label">Describe Your Scene</label>
+                <textarea class="prompt-input" placeholder="A cyclist rides through a European street at sunrise. Golden light hits cobblestones as café owners open their shops. Birds scatter from the path..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Video Duration</label>
+                <div class="style-grid">
+                    <div class="style-option active">4 seconds</div>
+                    <div class="style-option">6 seconds</div>
+                    <div class="style-option">10 seconds</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Visual Style</label>
+                <div class="style-grid">
+                    <div class="style-option">Cinematic</div>
+                    <div class="style-option">Documentary</div>
+                    <div class="style-option">Anime</div>
+                    <div class="style-option">Realistic</div>
+                </div>
+            </div>
+
+            <button class="generate-btn">🎬 Generate Video & Enter Battle</button>
+            <div class="cost-info">Requires AIBG tokens to generate videos</div>
+        </div>
+    </section>
+
+    <section id="arena" class="champion-arena">
+        <h2 class="arena-title">Champions Arena</h2>
+        <div class="voting-live-badge">
+            <div class="live-dot"></div>
+            <span>VOTING LIVE NOW</span>
+        </div>
+        <p class="section-subtitle" style="text-align: center; margin-bottom: 40px; font-size: 1.2rem;">This week's legendary video creators</p>
+
+        <div class="champions-podium">
+            <div class="champion-box rank-2">
+                <div class="champion-crown">🥈</div>
+                <div class="champion-badge">Champion</div>
+                <div class="champion-rank">#2</div>
+                <div class="champion-name">CyberSamurai</div>
+                <div class="champion-votes">11,392</div>
+                <div class="champion-progress">
+                    <div class="champion-progress-bar" style="--progress: 89%"></div>
+                </div>
+                <div class="votes-label">votes</div>
+            </div>
+
+            <div class="champion-box rank-1">
+                <div class="champion-crown">👑</div>
+                <div class="champion-badge">Gladiator</div>
+                <div class="champion-rank">#1</div>
+                <div class="champion-name">NeuralNinja.eth</div>
+                <div class="champion-votes">12,847</div>
+                <div class="champion-progress">
+                    <div class="champion-progress-bar" style="--progress: 100%"></div>
+                </div>
+                <div class="votes-label">votes</div>
+            </div>
+
+            <div class="champion-box rank-3">
+                <div class="champion-crown">🥉</div>
+                <div class="champion-badge">Knight</div>
+                <div class="champion-rank">#3</div>
+                <div class="champion-name">PixelMaster</div>
+                <div class="champion-votes">9,876</div>
+                <div class="champion-progress">
+                    <div class="champion-progress-bar" style="--progress: 77%"></div>
+                </div>
+                <div class="votes-label">votes</div>
+            </div>
+        </div>
+
+        <div class="runners-section">
+            <div class="runners-grid">
+                <div class="runner-box">
+                    <div class="runner-rank">#4</div>
+                    <div class="runner-avatar">🚀</div>
+                    <div class="runner-info">
+                        <div class="runner-name">DreamWeaver</div>
+                        <div class="runner-votes">8,654 votes</div>
+                        <div class="runner-progress">
+                            <div class="runner-progress-bar" style="--progress: 67%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="runner-box">
+                    <div class="runner-rank">#5</div>
+                    <div class="runner-avatar">✨</div>
+                    <div class="runner-info">
+                        <div class="runner-name">AIAlchemist</div>
+                        <div class="runner-votes">7,892 votes</div>
+                        <div class="runner-progress">
+                            <div class="runner-progress-bar" style="--progress: 61%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-table-section">
+            <div class="leaderboard-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Creator</th>
+                            <th style="text-align: right;">Votes</th>
+                            <th style="text-align: right;">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="table-rank">#6</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">⭐</div>
+                                    <span class="creator-name">NeoCreator</span>
+                                </div>
+                            </td>
+                            <td class="table-votes">6,543</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 51%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="table-rank">#7</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🌟</div>
+                                    <span class="creator-name">VisionaryAI</span>
+                                </div>
+                            </td>
+                            <td class="table-votes">5,234</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 41%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="table-rank">#8</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🎨</div>
+                                    <span class="creator-name">QuantumArtist</span>
+                                </div>
+                            </td>
+                            <td class="table-votes">4,876</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 38%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="table-rank">#9</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">💫</div>
+                                    <span class="creator-name">DigitalDreamer</span>
+                                </div>
+                            </td>
+                            <td class="table-votes">4,321</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 34%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="table-rank">#10</span></td>
+                            <td>
+                                <div class="creator-cell">
+                                    <div class="creator-avatar">🎭</div>
+                                    <span class="creator-name">CreativeForce</span>
+                                </div>
+                            </td>
+                            <td class="table-votes">3,987</td>
+                            <td>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: 31%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+    <div class="section-header">
+        <h2 class="section-title">Battle Cinema</h2>
+        <p class="section-subtitle">Watch, vote, and crown the champion</p>
+    </div>
+
+    <div class="filter-tabs">
+        <div class="filter-tab active">All</div>
+        <div class="filter-tab">Trending</div>
+        <div class="filter-tab">New</div>
+        <div class="filter-tab">Top Voted</div>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <div class="view-all-container">
+        <button class="btn-view-all">View All Videos</button>
+    </div>
+</section>
+
+    <section id="how-it-works" class="vision-explainer-section">
+        <div class="vision-container">
+            <h2 class="vision-main-title">How It <span style="background: linear-gradient(135deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Works</span></h2>
+            <p class="vision-main-desc">
+                Five simple steps from creation to victory. Your video, your glory, your winnings.
+            </p>
+
+            <div class="vision-cards-grid">
+                <div class="vision-card how-card">
+                    <div class="vision-card-icon">🎬</div>
+                    <h3 class="vision-card-title">1. Create Your Video</h3>
+<p class="vision-card-desc">
+    Submit your prompt and generate stunning AI videos using cutting-edge generative models. Each video becomes your entry into the weekly battle.
+</p>
+<ul class="vision-list">
+    <li><span class="list-bullet">→</span> Cinematic short-form videos (4-10 sec)</li>
+    <li><span class="list-bullet">→</span> Audio and visual synchronization</li>
+    <li><span class="list-bullet">→</span> Follow weekly themed challenges</li>
+</ul>
+                </div>
+
+                <div class="vision-card how-card">
+                    <div class="vision-card-icon">🎥</div>
+                    <h3 class="vision-card-title">2. Enter the Arena</h3>
+                    <p class="vision-card-desc">
+                        Your video is uploaded to the battle cinema where it joins other entries competing for the top spot.
+                    </p>
+                    <ul class="vision-list">
+                        <li><span class="list-bullet">→</span> Instant cinema placement</li>
+                        <li><span class="list-bullet">→</span> Public voting begins immediately</li>
+                        <li><span class="list-bullet">→</span> Compete against best creators</li>
+                    </ul>
+                </div>
+
+                <div class="vision-card how-card">
+                    <div class="vision-card-icon">🗳️</div>
+                    <h3 class="vision-card-title">3. Community Votes</h3>
+                    <p class="vision-card-desc">
+                        Through our Telegram bot, users participate in tournament-style 1v1 voting battles, choosing their favorites in each matchup.
+                    </p>
+                    <ul class="vision-list">
+                        <li><span class="list-bullet">→</span> Single-elimination tournament</li>
+                        <li><span class="list-bullet">→</span> Fair bracket-based competition</li>
+                        <li><span class="list-bullet">→</span> Voters stake tokens on choices</li>
+                    </ul>
+                </div>
+
+                <div class="vision-card solution-card">
+                    <div class="vision-card-icon">👑</div>
+                    <h3 class="vision-card-title">4. Champions Crowned</h3>
+                    <p class="vision-card-desc">
+                        Top-voted videos claim their position on the leaderboard. The most popular creation wins the championship.
+                    </p>
+                    <ul class="vision-list">
+                        <li><span class="list-bullet">→</span> Top 3 earn champion status</li>
+                        <li><span class="list-bullet">→</span> Rankings displayed in real-time</li>
+                        <li><span class="list-bullet">→</span> Permanent Hall of Fame entry</li>
+                    </ul>
+                </div>
+
+                <div class="vision-card solution-card">
+                    <div class="vision-card-icon">💰</div>
+                    <h3 class="vision-card-title">5. Claim Your Prize</h3>
+                    <p class="vision-card-desc">
+                        Winners take their share of the prize pool. Voters who backed winning entries also split a portion of the winnings.
+                    </p>
+                    <ul class="vision-list">
+                        <li><span class="list-bullet">→</span> Top creators receive major prizes</li>
+                        <li><span class="list-bullet">→</span> Winning voters share pool percentage</li>
+                        <li><span class="list-bullet">→</span> Instant token distribution</li>
+                    </ul>
+                </div>
+
+                <div class="vision-card problem-card">
+                    <div class="vision-card-icon">⚠️</div>
+                    <h3 class="vision-card-title">The Problem We Solve</h3>
+                    <p class="vision-card-desc">
+    AI video generation enables anyone to create, but most content disappears without recognition or value. Without monetization, creators lack motivation to improve, limiting widespread adoption.
+</p>
+                    <ul class="vision-list">
+                        <li><span class="list-bullet">→</span> Content overload, zero value capture</li>
+                        <li><span class="list-bullet">→</span> No monetization = no motivation</li>
+                        <li><span class="list-bullet">→</span> Video AI adoption remains limited</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tokenomics-section">
+        <div class="section-header">
+            <h2 class="section-title">Token Economics</h2>
+            <p class="section-subtitle">How AIBG tokens power the battle ecosystem</p>
+        </div>
+
+        <div class="tokenomics-grid">
+            <div class="token-flow-card">
+                <div class="token-icon">🎬</div>
+                <h3>Generate Videos</h3>
+                <p>Spend AIBG tokens to create AI videos and enter weekly battles</p>
+                <div class="token-amount">0.5-1.2 AIBG per video</div>
+            </div>
+
+            <div class="token-flow-card">
+                <div class="token-icon">⚔️</div>
+                <h3>Compete</h3>
+                <p>Your video enters the weekly arena where community votes determine champions</p>
+                <div class="token-amount">Free to Enter</div>
+            </div>
+
+            <div class="token-flow-card">
+                <div class="token-icon">🗳️</div>
+                <h3>Vote</h3>
+                <p>Stake AIBG tokens on your favorite entries to influence rankings</p>
+                <div class="token-amount">Variable Stake</div>
+            </div>
+
+            <div class="token-flow-card highlight">
+                <div class="token-icon">💰</div>
+                <h3>Claim Winnings</h3>
+                <p>Top creators and winning voters split the weekly prize pool based on rankings</p>
+                <div class="token-amount">Up to 7-Figure Prizes</div>
+            </div>
+        </div>
+
+        <div class="prize-distribution">
+            <h3 class="distribution-title">Weekly Prize Pool Distribution</h3>
+            <p style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-bottom: 40px; font-size: 1.1rem;">
+                Every week, the prize pool is distributed among top creators and voters who backed winners
+            </p>
+            <div class="distribution-bars">
+                <div class="dist-bar">
+                    <div class="dist-label">🏆 Top 3 Creators</div>
+                    <div class="dist-bar-fill" style="width: 50%; background: linear-gradient(90deg, var(--gold), #fcd34d);">
+                        50%
+                    </div>
+                </div>
+                <div class="dist-bar">
+                    <div class="dist-label">🥇 Top 4-10 Creators</div>
+                    <div class="dist-bar-fill" style="width: 20%; background: linear-gradient(90deg, var(--silver), #9ca3af);">
+                        20%
+                    </div>
+                </div>
+                <div class="dist-bar">
+                    <div class="dist-label">🗳️ Voters (Backed Top 10)</div>
+                    <div class="dist-bar-fill" style="width: 30%; background: linear-gradient(90deg, var(--primary), var(--secondary));">
+                        30%
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 40px; padding: 30px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px;">
+                <div style="font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; color: var(--accent);">💡 How Voting Works</div>
+                <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+                    Stake tokens on entries you believe will win. If your picks make it to Top 10, you share 30% of the prize pool proportionally to your stake. The more you stake on winners, the bigger your share.
+                </p>
+            </div>
+        </div>
+    </section>
+<section id="hall-of-fame" class="hall-of-fame-section">
+    <div class="section-header">
+        <h2 class="section-title">Hall of Fame</h2>
+        <p class="section-subtitle">Legendary champions who conquered the arena</p>
+    </div>
+
+    <div class="hall-grid">
+        <div class="hall-card">
+            <div class="hall-week">Week 13</div>
+            <div class="hall-champion">
+                <div class="hall-avatar">👑</div>
+                <div class="hall-name">QuantumDreamer</div>
+                <div class="hall-votes">15,234 votes</div>
+            </div>
+            <div class="hall-theme">"Neon Dreams"</div>
+        </div>
+
+        <div class="hall-card">
+            <div class="hall-week">Week 12</div>
+            <div class="hall-champion">
+                <div class="hall-avatar">🏆</div>
+                <div class="hall-name">CyberMystic</div>
+                <div class="hall-votes">14,892 votes</div>
+            </div>
+            <div class="hall-theme">"Digital Sunset"</div>
+        </div>
+
+        <div class="hall-card">
+            <div class="hall-week">Week 11</div>
+            <div class="hall-champion">
+                <div class="hall-avatar">⚡</div>
+                <div class="hall-name">NeonSamurai</div>
+                <div class="hall-votes">13,567 votes</div>
+            </div>
+            <div class="hall-theme">"Urban Pulse"</div>
+        </div>
+
+        <div class="hall-card">
+            <div class="hall-week">Week 10</div>
+            <div class="hall-champion">
+                <div class="hall-avatar">💎</div>
+                <div class="hall-name">PixelPhoenix</div>
+                <div class="hall-votes">12,945 votes</div>
+            </div>
+            <div class="hall-theme">"Crystal Dawn"</div>
+        </div>
+    </div>
+
+    <div class="view-all-container">
+        <button class="btn-view-all">View All PAST Champions</button>
+    </div>
+</section>
+    <section id="vision" class="vision-roadmap-section">
+        <h2 class="roadmap-title">Vision & Roadmap</h2>
+
+        <div class="roadmap-timeline">
+            <div class="roadmap-item">
+                <div class="roadmap-content completed">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🎬</div>
+<div class="roadmap-period">2025 Q4</div>
+<h3 class="roadmap-item-title">AI Video Generator Integration</h3>
+<p class="roadmap-desc">
+    Revolutionary generative AI video platform. Create cinematic 4-10 second videos with synchronized audio using state-of-the-art models. First Web3 platform to enable video-based creative battles with instant monetization.
+</p><div class="roadmap-status">✓ COMPLETED</div>
+                </div>
+                <div class="roadmap-dot completed"></div>
+                <div></div>
+            </div>
+
+            <div class="roadmap-item">
+                <div></div>
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🎵</div>
+                    <div class="roadmap-period">2026 Q1</div>
+                    <h3 class="roadmap-item-title">Music Battles Launch</h3>
+                    <p class="roadmap-desc">
+                        Expand into audio with AI-generated music competitions. Dedicated creator tools and voting systems for music format. Cross-media creative platform.
+                    </p>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🏆</div>
+                    <div class="roadmap-period">2026 Q2</div>
+                    <h3 class="roadmap-item-title">The Nexus Awards Debut</h3>
+                    <p class="roadmap-desc">
+                        Launch the first annual Nexus Awards - the premier recognition ceremony for AI creators. Category champions crowned across Video and Music. Establish AIBG as the definitive platform for creative excellence.
+                    </p>
+                </div>
+                <div class="roadmap-dot"></div>
+                <div></div>
+            </div>
+
+            <div class="roadmap-item">
+                <div></div>
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">⚔️</div>
+                    <div class="roadmap-period">2026 Q3</div>
+                    <h3 class="roadmap-item-title">Creator League System</h3>
+                    <p class="roadmap-desc">
+                        Introduce Pro and Amateur leagues with seasonal competitions. Spring, Summer, Fall, Winter seasons with promotion and relegation. Climb the ranks from Amateur to Pro to Elite status.
+                    </p>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🤝</div>
+                    <div class="roadmap-period">2026 Q4</div>
+                    <h3 class="roadmap-item-title">Brand Partnership Battles</h3>
+                    <p class="roadmap-desc">
+                        Corporate-sponsored special competitions. Brands challenge creators with custom themes and prize pools. Think Nike Commercial Challenge, Samsung Future Tech Battle, and more.
+                    </p>
+                </div>
+                <div class="roadmap-dot"></div>
+                <div></div>
+            </div>
+
+            <div class="roadmap-item">
+                <div></div>
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🌍</div>
+                    <div class="roadmap-period">2027 Q1</div>
+                    <h3 class="roadmap-item-title">Global Championships</h3>
+                    <p class="roadmap-desc">
+                        Regional tournaments across Asia, Europe, and Americas. Continental champions compete in the Grand Final. Watch the best video creators from around the world battle for global supremacy.
+                    </p>
+                </div>
+            </div>
+
+           <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">💎</div>
+                    <div class="roadmap-period">2027 Q2</div>
+                    <h3 class="roadmap-item-title">AI Agent Marketplace</h3>
+                    <p class="roadmap-desc">
+                        Top creators can license their winning styles as AI agents. Brands and users can directly commission work from champion creators or use their trained models. Direct creator-to-client monetization without middlemen.
+                    </p>
+                </div>
+                <div class="roadmap-dot"></div>
+                <div></div>
+            </div>
+        </div>
+    </section>
+
+   <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-content">
+                <div class="cta-badge">
+                    <div class="live-dot"></div>
+                    <span>BATTLE IS LIVE</span>
+                </div>
+                <h2 class="cta-title">Join the Arena Today</h2>
+                <p class="cta-subtitle">
+                    Create, compete, and claim your place among the champions. The next great video creator could be you.
+                </p>
+                <div class="cta-buttons">
+                    <button class="cta-btn-primary">Start Creating Now</button>
+                    <button class="cta-btn-secondary">View Documentation</button>
+                </div>
+                <div class="cta-stats">
+                    <div class="cta-stat">
+                        <div class="cta-stat-number" data-target="247">$0</div>
+                        <div class="cta-stat-label">This Week's Prize Pool (K)</div>
+                    </div>
+                    <div class="cta-stat">
+                        <div class="cta-stat-number" data-target="2">0D</div>
+                        <div class="cta-stat-label">Until Battle Ends</div>
+                    </div>
+                    <div class="cta-stat">
+                        <div class="cta-stat-number" data-target="8432">0</div>
+                        <div class="cta-stat-label">Videos Created</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>  <!-- CTA section 끝 -->
+
+    <!-- ========== Footer 추가 ========== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">⚔️</div>
+                    AI BattleGround
+                </div>
+                <p class="footer-desc">
+                    The premier Web3 platform where AI video creators compete for recognition and prestige in the digital colosseum.
+                </p>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Platform</div>
+                <div class="footer-links">
+                    <a href="#arena">Arena</a>
+                    <a href="#generator">Create</a>
+                    <a href="#gallery">Cinema</a>
+                    <a href="#vision">Vision</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Resources</div>
+                <div class="footer-links">
+                    <a href="#">Documentation</a>
+                    <a href="#">Whitepaper</a>
+                    <a href="#">API</a>
+                    <a href="#">Brand Kit</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Community</div>
+                <div class="footer-links">
+                    <a href="#">X (Twitter)</a>
+                    <a href="#">Medium</a>
+                    <a href="#">Telegram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== JavaScript 추가 ========== -->
+    <script>
+        // ===== Confetti 불꽃놀이 효과 =====
+        function celebrateTopRank() {
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#fbbf24', '#f59e0b', '#fcd34d', '#ffffff']
+            });
+        }
+
+        function celebrateVote() {
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#6366f1', '#8b5cf6', '#ec4899']
+            });
+        }
+
+        function epicCelebration() {
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.8 },
+                    colors: ['#fbbf24', '#f59e0b']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.8 },
+                    colors: ['#6366f1', '#8b5cf6']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // ===== Stats 애니메이션 =====
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const finalValues = ['$247K', '8.4K', '892K'];
+            
+            statNumbers.forEach((stat, index) => {
+                let counter = 0;
+                const interval = setInterval(() => {
+                    if (counter < 20) {
+                        if (index === 0) {
+                            stat.textContent = '$' + Math.floor(Math.random() * 500) + 'K';
+                        } else {
+                            stat.textContent = Math.floor(Math.random() * 100) + '.' + Math.floor(Math.random() * 10) + 'K';
+                        }
+                        counter++;
+                    } else {
+                        clearInterval(interval);
+                        stat.textContent = finalValues[index];
+                    }
+                }, 50);
+            });
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(animateStats, 500);
+        });
+
+        // ===== Timer =====
+        function startTimer() {
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + 2);
+            endDate.setHours(endDate.getHours() + 14);
+            endDate.setMinutes(endDate.getMinutes() + 37);
+            
+            setInterval(() => {
+                const now = new Date();
+                const diff = endDate - now;
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+        
+        startTimer();
+
+        // ===== Navbar Scroll =====
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ===== Style Options =====
+        document.querySelectorAll('.style-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.style-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== Gallery Grid 생성 =====
+        const galleryGrid = document.getElementById('galleryGrid');
+        const gradients = [
+            'linear-gradient(135deg, #a855f7, #ec4899)',
+            'linear-gradient(135deg, #3b82f6, #06b6d4)',
+            'linear-gradient(135deg, #f59e0b, #ef4444)',
+            'linear-gradient(135deg, #10b981, #06b6d4)',
+            'linear-gradient(135deg, #8b5cf6, #ec4899)',
+            'linear-gradient(135deg, #f97316, #dc2626)'
+        ];
+        const emojis = ['🎬', '🌌', '🏙️', '🚀', '💎', '🔮', '⚡', '🎨', '💫', '🌟', '✨', '🔥', '🎪', '🌈', '🎯', '🎭', '🎮', '🎸', '🎺', '🎤'];
+
+        for (let i = 0; i < 20; i++) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.style.background = gradients[i % gradients.length];
+            
+            const rankBadge = i < 3 ? `<div class="gallery-badge">RANK #${i + 1}</div>` : '';
+            
+            item.innerHTML = `
+                <div class="gallery-placeholder">${emojis[i]}</div>
+                ${rankBadge}
+                <div class="gallery-overlay">
+                    <div class="gallery-creator">Creator${i + 1}</div>
+                    <div class="gallery-vote-count">
+                        ⚡ ${(Math.floor(Math.random() * 1000) + 100).toLocaleString()} votes
+                    </div>
+                </div>
+            `;
+            
+            galleryGrid.appendChild(item);
+        }
+
+        // ===== Generate Button =====
+        document.querySelector('.generate-btn').addEventListener('click', function() {
+            const input = document.querySelector('.prompt-input');
+            if (input.value) {
+                this.textContent = '🎬 Generating...';
+                this.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = '✓ Video Created!';
+                    this.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    epicCelebration();
+                    
+                    setTimeout(() => {
+                        this.textContent = '🎬 Generate Video & Enter Battle';
+                        this.style.background = '';
+                        this.disabled = false;
+                        input.value = '';
+                    }, 2500);
+                }, 2000);
+            }
+        });
+
+        // ===== Smooth Scroll =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== CTA Stats =====
+        function animateCTAStats() {
+            const stats = document.querySelectorAll('.cta-stat-number');
+            
+            stats.forEach((stat, index) => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                let count = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        clearInterval(timer);
+                        if (index === 0) {
+                            stat.textContent = '$' + target + 'K';
+                        } else if (index === 1) {
+                            stat.textContent = target + 'D 14H';
+                        } else {
+                            stat.textContent = target.toLocaleString();
+                        }
+                    } else {
+                        if (index === 0) {
+                            stat.textContent = '$' + Math.floor(count) + 'K';
+                        } else if (index === 1) {
+                            stat.textContent = Math.floor(count) + 'D';
+                        } else {
+                            stat.textContent = Math.floor(count).toLocaleString();
+                        }
+                    }
+                }, 30);
+            });
+        }
+
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCTAStats();
+                    ctaObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const ctaSection = document.querySelector('.cta-section');
+        if (ctaSection) {
+            ctaObserver.observe(ctaSection);
+        }
+
+        // ===== Filter Tabs =====
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== 투표수 카운트업 + Confetti =====
+        function animateVotes() {
+            const voteElements = document.querySelectorAll('.champion-votes');
+            voteElements.forEach((el, index) => {
+                const finalValue = parseInt(el.textContent.replace(/,/g, ''));
+                let current = 0;
+                const increment = finalValue / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= finalValue) {
+                        el.textContent = finalValue.toLocaleString();
+                        clearInterval(timer);
+                        
+                        setTimeout(() => {
+                            if (el.closest('.rank-1')) {
+                                celebrateTopRank();
+                            } else {
+                                celebrateVote();
+                            }
+                        }, index * 300);
+                    } else {
+                        el.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 30);
+            });
+        }
+
+        const championObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateVotes();
+                    championObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const championSection = document.querySelector('.champion-arena');
+        if (championSection) {
+            championObserver.observe(championSection);
+        }
+
+        // ===== 챔피언 카드 클릭 Confetti =====
+        document.querySelectorAll('.champion-box').forEach(box => {
+            box.addEventListener('click', function() {
+                if (this.classList.contains('rank-1')) {
+                    epicCelebration();
+                } else {
+                    celebrateTopRank();
+                }
+            });
+        });
+
+        // ===== 실시간 활동 피드 =====
+        const activities = [
+            { icon: '🎯', text: 'User_3847 just voted!' },
+            { icon: '🔥', text: 'NeuralNinja climbed to #1!' },
+            { icon: '⚡', text: '3 new votes in 10 seconds!' },
+            { icon: '🚀', text: 'DreamWeaver gained 50 votes!' },
+            { icon: '💎', text: 'PixelMaster moved up 2 ranks!' },
+            { icon: '🎬', text: 'New battle starting soon!' },
+            { icon: '👑', text: 'CyberSamurai defending #2!' },
+            { icon: '⭐', text: 'AIAlchemist breaking records!' },
+            { icon: '✨', text: '20 videos created today!' },
+            { icon: '🎨', text: 'Record prize pool: $250K!' },
+            { icon: '🏆', text: 'Top 3 changed positions!' },
+            { icon: '💫', text: 'Voting speed doubled!' },
+            { icon: '🎪', text: '5 creators entered battle!' },
+            { icon: '🌟', text: 'New video just submitted!' },
+            { icon: '⚔️', text: 'Battle heating up!' }
+        ];
+
+        function addActivity() {
+            const feed = document.getElementById('activityFeed');
+            if (!feed) return;
+            
+            const activity = activities[Math.floor(Math.random() * activities.length)];
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `<span class="activity-icon">${activity.icon}</span>${activity.text}`;
+            
+            feed.prepend(item);
+            
+            setTimeout(() => {
+                item.classList.add('fade-out');
+                setTimeout(() => item.remove(), 500);
+            }, 5000);
+            
+            while (feed.children.length > 6) {
+                feed.lastChild.remove();
+            }
+        }
+
+        function createBurst() {
+            const burstCount = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < burstCount; i++) {
+                setTimeout(() => addActivity(), i * 200);
+            }
+        }
+
+        setTimeout(() => {
+            createBurst();
+            
+            setInterval(() => {
+                const random = Math.random();
+                if (random > 0.7) {
+                    createBurst();
+                } else if (random > 0.2) {
+                    addActivity();
+                }
+            }, Math.random() * 3000 + 2000);
+            
+            setInterval(() => {
+                if (Math.random() > 0.6) {
+                    createBurst();
+                }
+            }, Math.random() * 5000 + 3000);
+        }, 500);
+    </script>
+
+</body>
+</html>
